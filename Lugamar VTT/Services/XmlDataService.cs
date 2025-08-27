@@ -81,14 +81,35 @@ namespace LugamarVTT.Services
                 yield break;
             }
 
-            // Enumerate all <charsheet> elements and assign a sequential Id to
-            // each character.  This Id is used by the controller to route
-            // requests for individual character details.
-            var charsheets = root.Descendants("charsheet").ToList();
-            for (var i = 0; i < charsheets.Count; i++)
+            // Fantasy Grounds stores all player characters inside a single
+            // <charsheet> element where each child element whose name starts
+            // with "id-" represents an individual character. The previous
+            // implementation treated each <charsheet> as an individual
+            // character which meant only the first entry was surfaced.
+            // Enumerate those dynamic id nodes directly so every character in
+            // the database is returned.
+            var charsheetRoot = root.Element("charsheet");
+            if (charsheetRoot == null)
             {
-                var sheet = charsheets[i];
-                var character = ParseCharacter(sheet, i);
+                yield break;
+            }
+
+            var sheets = charsheetRoot.Elements()
+                                       .Where(e => e.Name.LocalName.StartsWith("id-"))
+                                       .ToList();
+
+            // Some test fixtures or simplified XML may omit the dynamic id
+            // wrapper and place character fields directly beneath
+            // <charsheet>.  If no id-prefixed elements are found, treat each
+            // direct child as a character definition.
+            if (sheets.Count == 0)
+            {
+                sheets = new List<XElement> { charsheetRoot };
+            }
+
+            for (var i = 0; i < sheets.Count; i++)
+            {
+                var character = ParseCharacter(sheets[i], i);
                 yield return character;
             }
         }
