@@ -1,8 +1,7 @@
-using LugamarVTT.Services;
-using Microsoft.AspNetCore.Mvc;
-
 using System;
 using System.Linq;
+using LugamarVTT.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LugamarVTT.Controllers
 {
@@ -37,6 +36,30 @@ namespace LugamarVTT.Controllers
             catch (Exception ex)
             {
                 // Log the error and display an informative message
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error");
+            }
+        }
+
+        /// <summary>
+        /// Display detailed information for a specific character sheet.  The
+        /// identifier corresponds to the zero‑based index assigned when
+        /// parsing the XML database.
+        /// </summary>
+        /// <param name="id">Identifier of the character to display.</param>
+        public IActionResult Details(int id)
+        {
+            try
+            {
+                var character = _service.GetCharacterById(id);
+                if (character == null)
+                {
+                    return NotFound();
+                }
+                return View(character);
+            }
+            catch (Exception ex)
+            {
                 ViewBag.ErrorMessage = ex.Message;
                 return View("Error");
             }

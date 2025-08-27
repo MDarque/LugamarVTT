@@ -10,6 +10,14 @@ namespace LugamarVTT.Models
     /// </summary>
     public class Character
     {
+        /// <summary>
+        /// Identifier for the character within the XML database.  This is an
+        /// internal index assigned by <see cref="XmlDataService"/> when the
+        /// characters are parsed.  It should be stable for a given file
+        /// read, but may change if the underlying XML changes or new
+        /// characters are inserted before existing ones.
+        /// </summary>
+        public int Id { get; set; }
         // Basic information
         public string? Name { get; set; }
         public string? Race { get; set; }

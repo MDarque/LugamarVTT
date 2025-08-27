@@ -81,11 +81,16 @@ namespace LugamarVTT.Services
                 yield break;
             }
 
-            var charsheets = root.Descendants("charsheet");
-            foreach (var sheet in charsheets)
+            // Enumerate all <charsheet> elements and assign a sequential Id to
+            // each character.  This Id is used by the controller to route
+            // requests for individual character details.
+            var charsheets = root.Descendants("charsheet").ToList();
+            for (var i = 0; i < charsheets.Count; i++)
             {
+                var sheet = charsheets[i];
                 var character = new Character
                 {
+                    Id = i,
                     Name = (string?)sheet.Element("name"),
                     Race = (string?)sheet.Element("race"),
                     Class = (string?)sheet.Element("class"),
@@ -102,14 +107,33 @@ namespace LugamarVTT.Services
                     BaseAttackBonus = (string?)sheet.Element("bab"),
                 };
 
-                // Optional lists
-                character.Skills.AddRange(sheet.Descendants("skill").Select(e => (string?)e.Attribute("name") ?? e.Value));
-                character.Feats.AddRange(sheet.Descendants("feat").Select(e => (string?)e.Attribute("name") ?? e.Value));
-                character.Equipment.AddRange(sheet.Descendants("item").Select(e => (string?)e.Attribute("name") ?? e.Value));
-                character.Spells.AddRange(sheet.Descendants("spell").Select(e => (string?)e.Attribute("name") ?? e.Value));
+                // Optional lists may be nested within grouping elements (e.g.,
+                // <skills><skill /></skills>).  Using Descendants instead of
+                // Elements ensures we capture items no matter their depth
+                // beneath the <charsheet> node.
+                character.Skills.AddRange(
+                    sheet.Descendants("skill").Select(e => (string?)e.Attribute("name") ?? e.Value));
+                character.Feats.AddRange(
+                    sheet.Descendants("feat").Select(e => (string?)e.Attribute("name") ?? e.Value));
+                character.Equipment.AddRange(
+                    sheet.Descendants("item").Select(e => (string?)e.Attribute("name") ?? e.Value));
+                character.Spells.AddRange(
+                    sheet.Descendants("spell").Select(e => (string?)e.Attribute("name") ?? e.Value));
 
                 yield return character;
             }
+        }
+
+        /// <summary>
+        /// Retrieve a single character by its identifier.  If the id is out
+        /// of bounds or no characters exist, <c>null</c> is returned.
+        /// </summary>
+        /// <param name="id">Zero‑based identifier assigned by <see cref="GetCharacters"/>.</param>
+        public Character? GetCharacterById(int id)
+        {
+            // Force materialisation of the collection to ensure consistent Ids
+            var characters = GetCharacters().ToList();
+            return id >= 0 && id < characters.Count ? characters[id] : null;
         }
     }
 }
