@@ -102,11 +102,18 @@ namespace LugamarVTT.Services
                     BaseAttackBonus = (string?)sheet.Element("bab"),
                 };
 
-                // Optional lists
-                character.Skills.AddRange(sheet.Elements("skill").Select(e => (string?)e.Attribute("name") ?? e.Value));
-                character.Feats.AddRange(sheet.Elements("feat").Select(e => (string?)e.Attribute("name") ?? e.Value));
-                character.Equipment.AddRange(sheet.Elements("item").Select(e => (string?)e.Attribute("name") ?? e.Value));
-                character.Spells.AddRange(sheet.Elements("spell").Select(e => (string?)e.Attribute("name") ?? e.Value));
+                // Optional lists may be nested within grouping elements (e.g.,
+                // <skills><skill /></skills>).  Using Descendants instead of
+                // Elements ensures we capture items no matter their depth
+                // beneath the <charsheet> node.
+                character.Skills.AddRange(
+                    sheet.Descendants("skill").Select(e => (string?)e.Attribute("name") ?? e.Value));
+                character.Feats.AddRange(
+                    sheet.Descendants("feat").Select(e => (string?)e.Attribute("name") ?? e.Value));
+                character.Equipment.AddRange(
+                    sheet.Descendants("item").Select(e => (string?)e.Attribute("name") ?? e.Value));
+                character.Spells.AddRange(
+                    sheet.Descendants("spell").Select(e => (string?)e.Attribute("name") ?? e.Value));
 
                 yield return character;
             }
