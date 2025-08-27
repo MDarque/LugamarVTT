@@ -1,76 +1,112 @@
 @model LugamarVTT.Models.Character
+@using System
 
 @{
-    // Use the character name for the page title when available
     ViewData["Title"] = Model?.Name ?? "Character Details";
 }
 
-<h1 class="mt-4 mb-3">@Model?.Name</h1>
+@section Styles {
+    <link rel="stylesheet" href="~/css/charsheet.css" />
+}
 
+@functions {
+    int Mod(int score) => (int)Math.Floor((score - 10) / 2.0);
+}
+
+<h1 class="mt-4 mb-3">@Model?.Name</h1>
 <a asp-action="Index" class="btn btn-secondary mb-3">&larr; Back to list</a>
 
-<div class="card">
-    <div class="card-body">
-        <h2 class="h5">Basic Information</h2>
-        <dl class="row">
-            <dt class="col-sm-3">Race</dt>
-            <dd class="col-sm-9">@Model?.Race</dd>
-            <dt class="col-sm-3">Class</dt>
-            <dd class="col-sm-9">@Model?.Class</dd>
-            <dt class="col-sm-3">Alignment</dt>
-            <dd class="col-sm-9">@Model?.Alignment</dd>
-            <dt class="col-sm-3">Level</dt>
-            <dd class="col-sm-9">@Model?.Level</dd>
-        </dl>
+<div class="charsheet">
+    <aside class="ability-scores">
+        <div class="ability">
+            <span class="label">STR</span>
+            <span class="score">@Model?.Strength</span>
+            <span class="mod">@Mod(Model?.Strength ?? 0)</span>
+        </div>
+        <div class="ability">
+            <span class="label">DEX</span>
+            <span class="score">@Model?.Dexterity</span>
+            <span class="mod">@Mod(Model?.Dexterity ?? 0)</span>
+        </div>
+        <div class="ability">
+            <span class="label">CON</span>
+            <span class="score">@Model?.Constitution</span>
+            <span class="mod">@Mod(Model?.Constitution ?? 0)</span>
+        </div>
+        <div class="ability">
+            <span class="label">INT</span>
+            <span class="score">@Model?.Intelligence</span>
+            <span class="mod">@Mod(Model?.Intelligence ?? 0)</span>
+        </div>
+        <div class="ability">
+            <span class="label">WIS</span>
+            <span class="score">@Model?.Wisdom</span>
+            <span class="mod">@Mod(Model?.Wisdom ?? 0)</span>
+        </div>
+        <div class="ability">
+            <span class="label">CHA</span>
+            <span class="score">@Model?.Charisma</span>
+            <span class="mod">@Mod(Model?.Charisma ?? 0)</span>
+        </div>
+    </aside>
 
-        <h2 class="h5 mt-4">Ability Scores</h2>
-        <dl class="row">
-            <dt class="col-sm-3">Strength</dt>
-            <dd class="col-sm-9">@Model?.Strength</dd>
-            <dt class="col-sm-3">Dexterity</dt>
-            <dd class="col-sm-9">@Model?.Dexterity</dd>
-            <dt class="col-sm-3">Constitution</dt>
-            <dd class="col-sm-9">@Model?.Constitution</dd>
-            <dt class="col-sm-3">Intelligence</dt>
-            <dd class="col-sm-9">@Model?.Intelligence</dd>
-            <dt class="col-sm-3">Wisdom</dt>
-            <dd class="col-sm-9">@Model?.Wisdom</dd>
-            <dt class="col-sm-3">Charisma</dt>
-            <dd class="col-sm-9">@Model?.Charisma</dd>
-        </dl>
+    <section>
+        <div class="section basic-info">
+            <h2>Basic Information</h2>
+            <dl class="row">
+                <dt class="col-sm-3">Race</dt>
+                <dd class="col-sm-9">@Model?.Race</dd>
+                <dt class="col-sm-3">Class</dt>
+                <dd class="col-sm-9">@Model?.Class</dd>
+                <dt class="col-sm-3">Alignment</dt>
+                <dd class="col-sm-9">@Model?.Alignment</dd>
+                <dt class="col-sm-3">Level</dt>
+                <dd class="col-sm-9">@Model?.Level</dd>
+            </dl>
+        </div>
 
-        <h2 class="h5 mt-4">Combat Statistics</h2>
-        <dl class="row">
-            <dt class="col-sm-3">Armor Class</dt>
-            <dd class="col-sm-9">@Model?.ArmorClass</dd>
-            <dt class="col-sm-3">Hit Points</dt>
-            <dd class="col-sm-9">@Model?.HitPoints</dd>
-            <dt class="col-sm-3">Base Attack Bonus</dt>
-            <dd class="col-sm-9">@Model?.BaseAttackBonus</dd>
-        </dl>
+        <div class="section combat-stats">
+            <h2>Combat Statistics</h2>
+            <dl class="row">
+                <dt class="col-sm-4">Armor Class</dt>
+                <dd class="col-sm-8">@Model?.ArmorClass</dd>
+                <dt class="col-sm-4">Hit Points</dt>
+                <dd class="col-sm-8">@Model?.HitPoints</dd>
+                <dt class="col-sm-4">Base Attack Bonus</dt>
+                <dd class="col-sm-8">@Model?.BaseAttackBonus</dd>
+            </dl>
+        </div>
 
         @if (Model != null && Model.Skills.Any())
         {
-            <h2 class="h5 mt-4">Skills</h2>
-            <p>@string.Join(", ", Model.Skills)</p>
+            <div class="section">
+                <h2>Skills</h2>
+                <p>@string.Join(", ", Model.Skills)</p>
+            </div>
         }
 
         @if (Model != null && Model.Feats.Any())
         {
-            <h2 class="h5 mt-4">Feats</h2>
-            <p>@string.Join(", ", Model.Feats)</p>
+            <div class="section">
+                <h2>Feats</h2>
+                <p>@string.Join(", ", Model.Feats)</p>
+            </div>
         }
 
         @if (Model != null && Model.Equipment.Any())
         {
-            <h2 class="h5 mt-4">Equipment</h2>
-            <p>@string.Join(", ", Model.Equipment)</p>
+            <div class="section">
+                <h2>Equipment</h2>
+                <p>@string.Join(", ", Model.Equipment)</p>
+            </div>
         }
 
         @if (Model != null && Model.Spells.Any())
         {
-            <h2 class="h5 mt-4">Spells</h2>
-            <p>@string.Join(", ", Model.Spells)</p>
+            <div class="section">
+                <h2>Spells</h2>
+                <p>@string.Join(", ", Model.Spells)</p>
+            </div>
         }
-    </div>
+    </section>
 </div>

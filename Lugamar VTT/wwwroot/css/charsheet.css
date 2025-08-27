@@ -1,0 +1,43 @@
+.charsheet {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 1rem;
+}
+
+.ability-scores {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.ability {
+    border: 2px solid #000;
+    text-align: center;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+}
+
+.ability .label {
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.ability .score {
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: block;
+}
+
+.ability .mod {
+    font-size: 1rem;
+    display: block;
+}
+
+.section {
+    margin-bottom: 1rem;
+}
+
+.section h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
