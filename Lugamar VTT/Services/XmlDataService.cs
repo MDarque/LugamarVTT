@@ -103,10 +103,10 @@ namespace LugamarVTT.Services
                 };
 
                 // Optional lists
-                character.Skills.AddRange(sheet.Elements("skill").Select(e => (string?)e.Attribute("name") ?? e.Value));
-                character.Feats.AddRange(sheet.Elements("feat").Select(e => (string?)e.Attribute("name") ?? e.Value));
-                character.Equipment.AddRange(sheet.Elements("item").Select(e => (string?)e.Attribute("name") ?? e.Value));
-                character.Spells.AddRange(sheet.Elements("spell").Select(e => (string?)e.Attribute("name") ?? e.Value));
+                character.Skills.AddRange(sheet.Descendants("skill").Select(e => (string?)e.Attribute("name") ?? e.Value));
+                character.Feats.AddRange(sheet.Descendants("feat").Select(e => (string?)e.Attribute("name") ?? e.Value));
+                character.Equipment.AddRange(sheet.Descendants("item").Select(e => (string?)e.Attribute("name") ?? e.Value));
+                character.Spells.AddRange(sheet.Descendants("spell").Select(e => (string?)e.Attribute("name") ?? e.Value));
 
                 yield return character;
             }

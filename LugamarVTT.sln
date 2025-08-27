@@ -1,8 +1,10 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LugamarVTT", "Lugamar VTT\LugamarVTT.csproj", "{14136E20-B19D-9648-0BD8-74A0FB83B852}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LugamarVTT.Tests", "LugamarVTT.Tests\LugamarVTT.Tests.csproj", "{514D65C6-5E68-4CB4-80DB-CA416BDBF911}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,6 +16,10 @@ Global
 		{14136E20-B19D-9648-0BD8-74A0FB83B852}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14136E20-B19D-9648-0BD8-74A0FB83B852}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14136E20-B19D-9648-0BD8-74A0FB83B852}.Release|Any CPU.Build.0 = Release|Any CPU
+		{514D65C6-5E68-4CB4-80DB-CA416BDBF911}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{514D65C6-5E68-4CB4-80DB-CA416BDBF911}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{514D65C6-5E68-4CB4-80DB-CA416BDBF911}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{514D65C6-5E68-4CB4-80DB-CA416BDBF911}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
