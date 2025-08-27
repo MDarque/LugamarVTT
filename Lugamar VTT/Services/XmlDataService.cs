@@ -81,47 +81,101 @@ namespace LugamarVTT.Services
                 yield break;
             }
 
-            // Enumerate all <charsheet> elements and assign a sequential Id to
-            // each character.  This Id is used by the controller to route
-            // requests for individual character details.
-            var charsheets = root.Descendants("charsheet").ToList();
-            for (var i = 0; i < charsheets.Count; i++)
+            // Fantasy Grounds stores all player characters inside a single
+            // <charsheet> element where each child element whose name starts
+            // with "id-" represents an individual character. The previous
+            // implementation treated each <charsheet> as an individual
+            // character which meant only the first entry was surfaced.
+            // Enumerate those dynamic id nodes directly so every character in
+            // the database is returned.
+            var charsheetRoot = root.Element("charsheet");
+            if (charsheetRoot == null)
             {
-                var sheet = charsheets[i];
-                var character = new Character
-                {
-                    Id = i,
-                    Name = (string?)sheet.Element("name"),
-                    Race = (string?)sheet.Element("race"),
-                    Class = (string?)sheet.Element("class"),
-                    Alignment = (string?)sheet.Element("alignment"),
-                    Level = int.TryParse((string?)sheet.Element("level"), out var lvl) ? lvl : 0,
-                    Strength = int.TryParse((string?)sheet.Element("strength"), out var str) ? str : 0,
-                    Dexterity = int.TryParse((string?)sheet.Element("dexterity"), out var dex) ? dex : 0,
-                    Constitution = int.TryParse((string?)sheet.Element("constitution"), out var con) ? con : 0,
-                    Intelligence = int.TryParse((string?)sheet.Element("intelligence"), out var intel) ? intel : 0,
-                    Wisdom = int.TryParse((string?)sheet.Element("wisdom"), out var wis) ? wis : 0,
-                    Charisma = int.TryParse((string?)sheet.Element("charisma"), out var cha) ? cha : 0,
-                    ArmorClass = int.TryParse((string?)sheet.Element("ac"), out var ac) ? ac : 0,
-                    HitPoints = int.TryParse((string?)sheet.Element("hp"), out var hp) ? hp : 0,
-                    BaseAttackBonus = (string?)sheet.Element("bab"),
-                };
+                yield break;
+            }
 
-                // Optional lists may be nested within grouping elements (e.g.,
-                // <skills><skill /></skills>).  Using Descendants instead of
-                // Elements ensures we capture items no matter their depth
-                // beneath the <charsheet> node.
-                character.Skills.AddRange(
-                    sheet.Descendants("skill").Select(e => (string?)e.Attribute("name") ?? e.Value));
-                character.Feats.AddRange(
-                    sheet.Descendants("feat").Select(e => (string?)e.Attribute("name") ?? e.Value));
-                character.Equipment.AddRange(
-                    sheet.Descendants("item").Select(e => (string?)e.Attribute("name") ?? e.Value));
-                character.Spells.AddRange(
-                    sheet.Descendants("spell").Select(e => (string?)e.Attribute("name") ?? e.Value));
+            var sheets = charsheetRoot.Elements()
+                                       .Where(e => e.Name.LocalName.StartsWith("id-"))
+                                       .ToList();
 
+            // Some test fixtures or simplified XML may omit the dynamic id
+            // wrapper and place character fields directly beneath
+            // <charsheet>.  If no id-prefixed elements are found, treat each
+            // direct child as a character definition.
+            if (sheets.Count == 0)
+            {
+                sheets = new List<XElement> { charsheetRoot };
+            }
+
+            for (var i = 0; i < sheets.Count; i++)
+            {
+                var character = ParseCharacter(sheets[i], i);
                 yield return character;
             }
+        }
+
+        /// <summary>
+        /// Convert the raw <c>&lt;charsheet&gt;</c> node into a <see cref="Character"/>
+        /// instance.  The XML produced by Fantasy Grounds nests the real data
+        /// inside a child element with a dynamic name (e.g. <c>&lt;id-00001&gt;</c>).
+        /// This helper normalises that structure and safely extracts commonly
+        /// used fields such as ability scores and combat stats.  Any missing
+        /// information is defaulted to sensible values so that the web site can
+        /// still render a sheet for partially populated characters.
+        /// </summary>
+        private static Character ParseCharacter(XElement sheet, int id)
+        {
+            // Fantasy Grounds stores the actual character information inside a
+            // child element whose name starts with "id-".  Grab that node if it
+            // exists; otherwise fall back to the sheet itself.
+            var charNode = sheet.Elements()
+                                 .FirstOrDefault(e => e.Name.LocalName.StartsWith("id-"))
+                           ?? sheet;
+
+            // Helper local functions to read integers and strings safely.
+            static int GetInt(XElement? el) => int.TryParse(el?.Value, out var v) ? v : 0;
+            static string? GetString(XElement? el) => el?.Value;
+
+            // Ability scores are nested within <abilities>/<ability>/<score>.
+            var abilities = charNode.Element("abilities");
+
+            var character = new Character
+            {
+                Id = id,
+                Name = GetString(charNode.Element("name")),
+                Race = GetString(charNode.Element("race")),
+                Class = GetString(charNode
+                    .Element("classes")?
+                    .Elements()
+                    .FirstOrDefault(e => e.Name.LocalName.StartsWith("id-"))?
+                    .Element("name")),
+                Alignment = GetString(charNode.Element("alignment")),
+                Level = GetInt(charNode.Element("level")),
+                Strength = GetInt(abilities?.Element("strength")?.Element("score")),
+                Dexterity = GetInt(abilities?.Element("dexterity")?.Element("score")),
+                Constitution = GetInt(abilities?.Element("constitution")?.Element("score")),
+                Intelligence = GetInt(abilities?.Element("intelligence")?.Element("score")),
+                Wisdom = GetInt(abilities?.Element("wisdom")?.Element("score")),
+                Charisma = GetInt(abilities?.Element("charisma")?.Element("score")),
+                ArmorClass = GetInt(charNode.Element("ac")?
+                                            .Element("totals")?
+                                            .Element("general")),
+                HitPoints = GetInt(charNode.Element("hp")?.Element("total")),
+                BaseAttackBonus = GetString(charNode.Element("attackbonus")?.Element("base"))
+            };
+
+            // Optional collections: skills, feats, equipment and spells can
+            // appear at various depths, so search the entire character node.
+            character.Skills.AddRange(
+                charNode.Descendants("skill").Select(e => (string?)e.Attribute("name") ?? e.Value));
+            character.Feats.AddRange(
+                charNode.Descendants("feat").Select(e => (string?)e.Attribute("name") ?? e.Value));
+            character.Equipment.AddRange(
+                charNode.Descendants("item").Select(e => (string?)e.Attribute("name") ?? e.Value));
+            character.Spells.AddRange(
+                charNode.Descendants("spell").Select(e => (string?)e.Attribute("name") ?? e.Value));
+
+            return character;
         }
 
         /// <summary>
