@@ -1,0 +1,90 @@
+@model IEnumerable<LugamarVTT.Models.Character>
+
+@{
+    ViewData["Title"] = "Player Characters";
+}
+
+<h1 class="mt-4 mb-3">Player Characters</h1>
+
+@if (!Model.Any())
+{
+    <p>No characters were found in the database.</p>
+}
+else
+{
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Race</th>
+                <th>Class</th>
+                <th>Alignment</th>
+                <th>Level</th>
+                <th>Str</th>
+                <th>Dex</th>
+                <th>Con</th>
+                <th>Int</th>
+                <th>Wis</th>
+                <th>Cha</th>
+                <th>AC</th>
+                <th>HP</th>
+                <th>BAB</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pc in Model)
+            {
+                <tr>
+                    <td>@pc.Name</td>
+                    <td>@pc.Race</td>
+                    <td>@pc.Class</td>
+                    <td>@pc.Alignment</td>
+                    <td>@pc.Level</td>
+                    <td>@pc.Strength</td>
+                    <td>@pc.Dexterity</td>
+                    <td>@pc.Constitution</td>
+                    <td>@pc.Intelligence</td>
+                    <td>@pc.Wisdom</td>
+                    <td>@pc.Charisma</td>
+                    <td>@pc.ArmorClass</td>
+                    <td>@pc.HitPoints</td>
+                    <td>@pc.BaseAttackBonus</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<!-- Optional section to show additional details in collapsible panels -->
+<style>
+    .character-details {
+        margin-bottom: 1rem;
+    }
+    .character-details h2 {
+        font-size: 1.25rem;
+        margin-top: 1rem;
+    }
+</style>
+
+@foreach (var pc in Model)
+{
+    <div class="character-details">
+        <h2>@pc.Name</h2>
+        @if (pc.Skills.Count > 0)
+        {
+            <strong>Skills:</strong> @string.Join(", ", pc.Skills)<br />
+        }
+        @if (pc.Feats.Count > 0)
+        {
+            <strong>Feats:</strong> @string.Join(", ", pc.Feats)<br />
+        }
+        @if (pc.Equipment.Count > 0)
+        {
+            <strong>Equipment:</strong> @string.Join(", ", pc.Equipment)<br />
+        }
+        @if (pc.Spells.Count > 0)
+        {
+            <strong>Spells:</strong> @string.Join(", ", pc.Spells)<br />
+        }
+    </div>
+}

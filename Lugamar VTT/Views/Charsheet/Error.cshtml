@@ -1,0 +1,15 @@
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1>Error Loading Characters</h1>
+
+<div class="alert alert-danger" role="alert">
+    <strong>We're sorry.</strong> An error occurred while loading the character data.
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <p class="mt-2">@ViewBag.ErrorMessage</p>
+    }
+    <p>Please ensure that the <code>db.xml</code> file exists in the application
+    root and is formatted correctly.</p>
+</div>
