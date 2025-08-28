@@ -51,38 +51,86 @@
             <div class="card h-100 shadow-sm">
                 <div class="card-header">Ability Scores</div>
                 <div class="card-body">
-                    <div class="ability-scores">
-                        <div class="ability">
-                            <label>STR</label>
-                            <input class="form-control mb-1 text-center" readonly value="@Model?.Strength" />
-                            <input class="form-control text-center" readonly value="@Mod(Model?.Strength ?? 0)" />
-                        </div>
-                        <div class="ability">
-                            <label>DEX</label>
-                            <input class="form-control mb-1 text-center" readonly value="@Model?.Dexterity" />
-                            <input class="form-control text-center" readonly value="@Mod(Model?.Dexterity ?? 0)" />
-                        </div>
-                        <div class="ability">
-                            <label>CON</label>
-                            <input class="form-control mb-1 text-center" readonly value="@Model?.Constitution" />
-                            <input class="form-control text-center" readonly value="@Mod(Model?.Constitution ?? 0)" />
-                        </div>
-                        <div class="ability">
-                            <label>INT</label>
-                            <input class="form-control mb-1 text-center" readonly value="@Model?.Intelligence" />
-                            <input class="form-control text-center" readonly value="@Mod(Model?.Intelligence ?? 0)" />
-                        </div>
-                        <div class="ability">
-                            <label>WIS</label>
-                            <input class="form-control mb-1 text-center" readonly value="@Model?.Wisdom" />
-                            <input class="form-control text-center" readonly value="@Mod(Model?.Wisdom ?? 0)" />
-                        </div>
-                        <div class="ability">
-                            <label>CHA</label>
-                            <input class="form-control mb-1 text-center" readonly value="@Model?.Charisma" />
-                            <input class="form-control text-center" readonly value="@Mod(Model?.Charisma ?? 0)" />
-                        </div>
-                    </div>
+                    <table class="table table-bordered ability-table mb-0">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Ability Score</th>
+                                <th>Ability Modifier</th>
+                                <th>Bonus</th>
+                                <th>Penalty</th>
+                                <th>Temp Adjust</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="ability-name">
+                                    <div class="abbr">STR</div>
+                                    <div class="full">Strength</div>
+                                </th>
+                                <td><input class="form-control text-center" readonly value="@Model?.Strength" /></td>
+                                <td><input class="form-control text-center" readonly value="@Mod(Model?.Strength ?? 0)" /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                            </tr>
+                            <tr>
+                                <th class="ability-name">
+                                    <div class="abbr">DEX</div>
+                                    <div class="full">Dexterity</div>
+                                </th>
+                                <td><input class="form-control text-center" readonly value="@Model?.Dexterity" /></td>
+                                <td><input class="form-control text-center" readonly value="@Mod(Model?.Dexterity ?? 0)" /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                            </tr>
+                            <tr>
+                                <th class="ability-name">
+                                    <div class="abbr">CON</div>
+                                    <div class="full">Constitution</div>
+                                </th>
+                                <td><input class="form-control text-center" readonly value="@Model?.Constitution" /></td>
+                                <td><input class="form-control text-center" readonly value="@Mod(Model?.Constitution ?? 0)" /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                            </tr>
+                            <tr>
+                                <th class="ability-name">
+                                    <div class="abbr">INT</div>
+                                    <div class="full">Intelligence</div>
+                                </th>
+                                <td><input class="form-control text-center" readonly value="@Model?.Intelligence" /></td>
+                                <td><input class="form-control text-center" readonly value="@Mod(Model?.Intelligence ?? 0)" /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                            </tr>
+                            <tr>
+                                <th class="ability-name">
+                                    <div class="abbr">WIS</div>
+                                    <div class="full">Wisdom</div>
+                                </th>
+                                <td><input class="form-control text-center" readonly value="@Model?.Wisdom" /></td>
+                                <td><input class="form-control text-center" readonly value="@Mod(Model?.Wisdom ?? 0)" /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                            </tr>
+                            <tr>
+                                <th class="ability-name">
+                                    <div class="abbr">CHA</div>
+                                    <div class="full">Charisma</div>
+                                </th>
+                                <td><input class="form-control text-center" readonly value="@Model?.Charisma" /></td>
+                                <td><input class="form-control text-center" readonly value="@Mod(Model?.Charisma ?? 0)" /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                                <td><input class="form-control text-center" readonly /></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
