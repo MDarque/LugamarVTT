@@ -1,5 +1,6 @@
 @model LugamarVTT.Models.Character
 @using System
+@using System.Linq
 
 @{
     ViewData["Title"] = Model?.Name ?? "Character Details";
@@ -50,9 +51,9 @@
         </div>
     </aside>
 
-    <section>
+    <div class="main">
         <div class="section basic-info">
-            <h2>Basic Information</h2>
+            <h2>Character Information</h2>
             <dl class="row">
                 <dt class="col-sm-3">Race</dt>
                 <dd class="col-sm-9">@Model?.Race</dd>
@@ -65,39 +66,389 @@
             </dl>
         </div>
 
-        <div class="section combat-stats">
-            <h2>Combat Statistics</h2>
+        <div class="section hp">
+            <h2>Hit Points</h2>
             <dl class="row">
-                <dt class="col-sm-4">Armor Class</dt>
-                <dd class="col-sm-8">@Model?.ArmorClass</dd>
-                <dt class="col-sm-4">Hit Points</dt>
+                <dt class="col-sm-4">Current</dt>
+                <dd class="col-sm-8">@Model?.CurrentHitPoints</dd>
+                <dt class="col-sm-4">Total</dt>
                 <dd class="col-sm-8">@Model?.HitPoints</dd>
-                <dt class="col-sm-4">Base Attack Bonus</dt>
-                <dd class="col-sm-8">@Model?.BaseAttackBonus</dd>
             </dl>
         </div>
 
-        @if (Model != null && Model.Skills.Any())
+        <div class="section saves">
+            <h2>Saving Throws</h2>
+            <dl class="row">
+                <dt class="col-sm-4">Fortitude</dt>
+                <dd class="col-sm-8">@Model?.Fortitude</dd>
+                <dt class="col-sm-4">Reflex</dt>
+                <dd class="col-sm-8">@Model?.Reflex</dd>
+                <dt class="col-sm-4">Will</dt>
+                <dd class="col-sm-8">@Model?.Will</dd>
+            </dl>
+        </div>
+
+        <div class="section speed-init">
+            <h2>Speed &amp; Initiative</h2>
+            <dl class="row">
+                <dt class="col-sm-4">Speed</dt>
+                <dd class="col-sm-8">@Model?.Speed</dd>
+                <dt class="col-sm-4">Initiative</dt>
+                <dd class="col-sm-8">@Model?.Initiative</dd>
+            </dl>
+        </div>
+
+        <div class="section armor-class">
+            <h2>Armor Class</h2>
+            <table class="sheet-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>DEX Modifier</th>
+                        <th>Size Modifier</th>
+                        <th>Armor Bonus</th>
+                        <th>Shield Bonus</th>
+                        <th>Natural Armor</th>
+                        <th>Dodge</th>
+                        <th>Misc</th>
+                        <th>Deflection</th>
+                        <th>Temp</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Armor Class</td>
+                        <td>@Model?.ArmorClassBreakdown.DexModifier</td>
+                        <td>@Model?.ArmorClassBreakdown.SizeModifier</td>
+                        <td>@Model?.ArmorClassBreakdown.ArmorBonus</td>
+                        <td>@Model?.ArmorClassBreakdown.ShieldBonus</td>
+                        <td>@Model?.ArmorClassBreakdown.NaturalArmor</td>
+                        <td>@Model?.ArmorClassBreakdown.Dodge</td>
+                        <td>@Model?.ArmorClassBreakdown.Misc</td>
+                        <td>@Model?.ArmorClassBreakdown.Deflection</td>
+                        <td>@Model?.ArmorClassBreakdown.Temp</td>
+                        <td>@Model?.ArmorClassBreakdown.Total</td>
+                    </tr>
+                    <tr>
+                        <td>Touch</td>
+                        <td>@Model?.TouchArmorClassBreakdown.DexModifier</td>
+                        <td>@Model?.TouchArmorClassBreakdown.SizeModifier</td>
+                        <td class="disabled-cell">@Model?.TouchArmorClassBreakdown.ArmorBonus</td>
+                        <td class="disabled-cell">@Model?.TouchArmorClassBreakdown.ShieldBonus</td>
+                        <td class="disabled-cell">@Model?.TouchArmorClassBreakdown.NaturalArmor</td>
+                        <td>@Model?.TouchArmorClassBreakdown.Dodge</td>
+                        <td>@Model?.TouchArmorClassBreakdown.Misc</td>
+                        <td>@Model?.TouchArmorClassBreakdown.Deflection</td>
+                        <td>@Model?.TouchArmorClassBreakdown.Temp</td>
+                        <td>@Model?.TouchArmorClassBreakdown.Total</td>
+                    </tr>
+                    <tr>
+                        <td>Flat-Footed</td>
+                        <td class="disabled-cell">@Model?.FlatFootedArmorClassBreakdown.DexModifier</td>
+                        <td>@Model?.FlatFootedArmorClassBreakdown.SizeModifier</td>
+                        <td>@Model?.FlatFootedArmorClassBreakdown.ArmorBonus</td>
+                        <td>@Model?.FlatFootedArmorClassBreakdown.ShieldBonus</td>
+                        <td>@Model?.FlatFootedArmorClassBreakdown.NaturalArmor</td>
+                        <td class="disabled-cell">@Model?.FlatFootedArmorClassBreakdown.Dodge</td>
+                        <td>@Model?.FlatFootedArmorClassBreakdown.Misc</td>
+                        <td>@Model?.FlatFootedArmorClassBreakdown.Deflection</td>
+                        <td>@Model?.FlatFootedArmorClassBreakdown.Temp</td>
+                        <td>@Model?.FlatFootedArmorClassBreakdown.Total</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="sheet-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Base Attack Bonus</th>
+                        <th>STR Bonus</th>
+                        <th>DEX Bonus</th>
+                        <th>Size Bonus</th>
+                        <th>Misc</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CMD</td>
+                        <td>@Model?.CombatManeuverDefense.BaseAttackBonus</td>
+                        <td>@Model?.CombatManeuverDefense.StrBonus</td>
+                        <td>@Model?.CombatManeuverDefense.DexBonus</td>
+                        <td>@Model?.CombatManeuverDefense.SizeBonus</td>
+                        <td>@Model?.CombatManeuverDefense.Misc</td>
+                        <td>@Model?.CombatManeuverDefense.Total</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section attack-bonus">
+            <h2>Attack Bonus</h2>
+            <table class="sheet-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Base Attack Bonus</th>
+                        <th>STR Bonus</th>
+                        <th>DEX Bonus</th>
+                        <th>Size Bonus</th>
+                        <th>Misc</th>
+                        <th>Temp</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Base Attack Bonus</td>
+                        <td colspan="7">@Model?.BaseAttackBonus</td>
+                    </tr>
+                    <tr>
+                        <td>Melee Attack</td>
+                        <td>@Model?.MeleeAttackBonus.BaseAttackBonus</td>
+                        <td>@Model?.MeleeAttackBonus.AbilityMod</td>
+                        <td class="disabled-cell"></td>
+                        <td>@Model?.MeleeAttackBonus.SizeBonus</td>
+                        <td>@Model?.MeleeAttackBonus.Misc</td>
+                        <td>@Model?.MeleeAttackBonus.Temp</td>
+                        <td>@Model?.MeleeAttackBonus.Total</td>
+                    </tr>
+                    <tr>
+                        <td>Ranged Attack</td>
+                        <td>@Model?.RangedAttackBonus.BaseAttackBonus</td>
+                        <td class="disabled-cell"></td>
+                        <td>@Model?.RangedAttackBonus.AbilityMod</td>
+                        <td>@Model?.RangedAttackBonus.SizeBonus</td>
+                        <td>@Model?.RangedAttackBonus.Misc</td>
+                        <td>@Model?.RangedAttackBonus.Temp</td>
+                        <td>@Model?.RangedAttackBonus.Total</td>
+                    </tr>
+                    <tr>
+                        <td>CMB</td>
+                        <td>@Model?.CombatManeuverBonus.BaseAttackBonus</td>
+                        <td class="disabled-cell"></td>
+                        <td>@Model?.CombatManeuverBonus.AbilityMod</td>
+                        <td>@Model?.CombatManeuverBonus.SizeBonus</td>
+                        <td>@Model?.CombatManeuverBonus.Misc</td>
+                        <td>@Model?.CombatManeuverBonus.Temp</td>
+                        <td>@Model?.CombatManeuverBonus.Total</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        @if (Model != null && Model.SkillDetails.Any())
         {
-            <div class="section">
-                <h2>Skills</h2>
-                <p>@string.Join(", ", Model.Skills)</p>
+            <div class="section skills-section">
+                <h2>Skills (@Model.SkillPointsSpent spent)</h2>
+                <table class="sheet-table">
+                    <thead>
+                        <tr>
+                            <th>Skill</th>
+                            <th>Ability</th>
+                            <th>Ability Bonus</th>
+                            <th>Ranks</th>
+                            <th>Misc</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var skill in Model.SkillDetails)
+                        {
+                            <tr>
+                                <td>@skill.Name</td>
+                                <td>@skill.Ability</td>
+                                <td>@skill.AbilityBonus</td>
+                                <td>@skill.Ranks</td>
+                                <td>@skill.Misc</td>
+                                <td>@skill.Total</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         }
 
-        @if (Model != null && Model.Feats.Any())
+        @if (Model != null && Model.SpecialAbilities.Any())
         {
             <div class="section">
+                <h2>Special Abilities</h2>
+                <table class="sheet-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Source</th>
+                            <th>Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ability in Model.SpecialAbilities)
+                        {
+                            <tr>
+                                <td>@ability.Name</td>
+                                <td>@ability.Source</td>
+                                <td>@Html.Raw(ability.Text)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        @if (Model != null && Model.FeatDetails.Any())
+        {
+            <div class="section feats-section">
                 <h2>Feats</h2>
-                <p>@string.Join(", ", Model.Feats)</p>
+                <table class="sheet-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Summary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.FeatDetails.Count; i++)
+                        {
+                            var feat = Model.FeatDetails[i];
+                            var modalId = $"featModal{i}";
+                            <tr data-bs-toggle="modal" data-bs-target="#@modalId" style="cursor:pointer">
+                                <td>@feat.Name</td>
+                                <td>@feat.Summary</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @for (int i = 0; i < Model.FeatDetails.Count; i++)
+                {
+                    var feat = Model.FeatDetails[i];
+                    var modalId = $"featModal{i}";
+                    <div class="modal fade" id="@modalId" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">@feat.Name</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <dl>
+                                        <dt>Type</dt><dd>@feat.Type</dd>
+                                        @if (!string.IsNullOrEmpty(feat.Prerequisites))
+                                        {
+                                            <dt>Prerequisites</dt><dd>@feat.Prerequisites</dd>
+                                        }
+                                        @if (!string.IsNullOrEmpty(feat.Benefit))
+                                        {
+                                            <dt>Benefit</dt><dd>@Html.Raw(feat.Benefit)</dd>
+                                        }
+                                        @if (!string.IsNullOrEmpty(feat.Normal))
+                                        {
+                                            <dt>Normal</dt><dd>@Html.Raw(feat.Normal)</dd>
+                                        }
+                                        @if (!string.IsNullOrEmpty(feat.Special))
+                                        {
+                                            <dt>Special</dt><dd>@Html.Raw(feat.Special)</dd>
+                                        }
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         }
 
-        @if (Model != null && Model.Equipment.Any())
+        @if (Model != null && Model.Traits.Any())
         {
             <div class="section">
+                <h2>Traits</h2>
+                <table class="sheet-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Source</th>
+                            <th>Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var trait in Model.Traits)
+                        {
+                            <tr>
+                                <td>@trait.Name</td>
+                                <td>@trait.Source</td>
+                                <td>@Html.Raw(trait.Text)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        @if (Model != null && Model.Proficiencies.Any())
+        {
+            <div class="section">
+                <h2>Proficiencies</h2>
+                <p>@string.Join(", ", Model.Proficiencies)</p>
+            </div>
+        }
+
+        @if (Model != null && Model.EquipmentDetails.Any())
+        {
+            <div class="section equipment-section">
                 <h2>Equipment</h2>
-                <p>@string.Join(", ", Model.Equipment)</p>
+                @foreach (var group in Model.EquipmentDetails.GroupBy(e => e.Type))
+                {
+                    var items = group.ToList();
+                    var safeType = group.Key.Replace(" ", "");
+                    <h3>@group.Key</h3>
+                    <table class="sheet-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Subtype</th>
+                                <th>Cost</th>
+                                <th>Weight</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < items.Count; i++)
+                            {
+                                var item = items[i];
+                                var modalId = $"equipModal_{safeType}_{i}";
+                                <tr data-bs-toggle="modal" data-bs-target="#@modalId" style="cursor:pointer">
+                                    <td>@item.Name</td>
+                                    <td>@item.Subtype</td>
+                                    <td>@item.Cost</td>
+                                    <td>@item.Weight</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    @for (int i = 0; i < items.Count; i++)
+                    {
+                        var item = items[i];
+                        var modalId = $"equipModal_{safeType}_{i}";
+                        <div class="modal fade" id="@modalId" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">@item.Name</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <dl>
+                                            <dt>Type</dt><dd>@item.Type</dd>
+                                            <dt>Subtype</dt><dd>@item.Subtype</dd>
+                                            <dt>Cost</dt><dd>@item.Cost</dd>
+                                            <dt>Weight</dt><dd>@item.Weight</dd>
+                                            <dt>Description</dt><dd>@Html.Raw(item.Description)</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
             </div>
         }
 
@@ -108,5 +459,5 @@
                 <p>@string.Join(", ", Model.Spells)</p>
             </div>
         }
-    </section>
+    </div>
 </div>

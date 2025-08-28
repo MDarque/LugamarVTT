@@ -41,3 +41,38 @@
     font-size: 1.25rem;
     margin-bottom: 0.5rem;
 }
+
+.main {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.skills-section {
+    grid-column: 1 / -1;
+}
+
+.skills-table,
+.sheet-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.skills-table th,
+.skills-table td,
+.sheet-table th,
+.sheet-table td {
+    border: 1px solid #000;
+    padding: 0.25rem;
+    font-size: 0.85rem;
+}
+
+.skills-table th,
+.sheet-table th {
+    background-color: #f0f0f0;
+}
+
+.disabled-cell {
+    background-color: #e9ecef;
+    color: #6c757d;
+}

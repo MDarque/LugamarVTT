@@ -35,13 +35,43 @@ namespace LugamarVTT.Models
 
         // Combat statistics
         public int ArmorClass { get; set; }
+        public int TouchArmorClass { get; set; }
+        public int FlatFootedArmorClass { get; set; }
+
+        public ArmorClassDetail ArmorClassBreakdown { get; set; } = new();
+        public ArmorClassDetail TouchArmorClassBreakdown { get; set; } = new();
+        public ArmorClassDetail FlatFootedArmorClassBreakdown { get; set; } = new();
         public int HitPoints { get; set; }
-        public string? BaseAttackBonus { get; set; }
+        public int CurrentHitPoints { get; set; }
+        public int Fortitude { get; set; }
+        public int Reflex { get; set; }
+        public int Will { get; set; }
+        public int Initiative { get; set; }
+        public int Speed { get; set; }
+        public int BaseAttackBonus { get; set; }
+        public AttackBonusDetail MeleeAttackBonus { get; set; } = new();
+        public AttackBonusDetail RangedAttackBonus { get; set; } = new();
+        public AttackBonusDetail CombatManeuverBonus { get; set; } = new();
+        public CmdDetail CombatManeuverDefense { get; set; } = new();
+
+        // Skill tracking
+        public int SkillPointsSpent { get; set; }
 
         // Optional collections for skills, feats, equipment and spells
         public List<string> Skills { get; set; } = new();
+        public List<SkillDetail> SkillDetails { get; set; } = new();
+
         public List<string> Feats { get; set; } = new();
+        public List<FeatDetail> FeatDetails { get; set; } = new();
+
+        public List<SpecialAbility> SpecialAbilities { get; set; } = new();
+        public List<Trait> Traits { get; set; } = new();
+
+        public List<string> Proficiencies { get; set; } = new();
+
         public List<string> Equipment { get; set; } = new();
+        public List<EquipmentItem> EquipmentDetails { get; set; } = new();
+
         public List<string> Spells { get; set; } = new();
     }
 }

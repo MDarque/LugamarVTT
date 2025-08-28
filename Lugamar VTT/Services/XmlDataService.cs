@@ -135,9 +135,16 @@ namespace LugamarVTT.Services
             // Helper local functions to read integers and strings safely.
             static int GetInt(XElement? el) => int.TryParse(el?.Value, out var v) ? v : 0;
             static string? GetString(XElement? el) => el?.Value;
+            static string GetFormatted(XElement? el) => el == null
+                ? string.Empty
+                : string.Concat(el.Nodes().Select(n => n.ToString()));
+            static int AbilityMod(int score) => (int)Math.Floor((score - 10) / 2.0);
 
             // Ability scores are nested within <abilities>/<ability>/<score>.
             var abilities = charNode.Element("abilities");
+
+            var attackNode = charNode.Element("attackbonus");
+            int baseAttack = GetInt(attackNode?.Element("base"));
 
             var character = new Character
             {
@@ -160,18 +167,305 @@ namespace LugamarVTT.Services
                 ArmorClass = GetInt(charNode.Element("ac")?
                                             .Element("totals")?
                                             .Element("general")),
+                TouchArmorClass = GetInt(charNode.Element("ac")?
+                                                .Element("totals")?
+                                                .Element("touch")),
+                FlatFootedArmorClass = GetInt(charNode.Element("ac")?
+                                                .Element("totals")?
+                                                .Element("flatfooted")),
                 HitPoints = GetInt(charNode.Element("hp")?.Element("total")),
-                BaseAttackBonus = GetString(charNode.Element("attackbonus")?.Element("base"))
+                CurrentHitPoints = GetInt(charNode.Element("hp")?.Element("current")),
+                Fortitude = GetInt(charNode.Element("saves")?.Element("fortitude")?.Element("total")),
+                Reflex = GetInt(charNode.Element("saves")?.Element("reflex")?.Element("total")),
+                Will = GetInt(charNode.Element("saves")?.Element("will")?.Element("total")),
+                Initiative = GetInt(charNode.Element("initiative")?.Element("total")),
+                Speed = GetInt(charNode.Element("speed")?.Element("total")),
+                BaseAttackBonus = baseAttack,
+                SkillPointsSpent = GetInt(charNode.Element("skillpoints")?.Element("spent"))
             };
+
+            if (attackNode != null)
+            {
+                var meleeNode = attackNode.Element("melee");
+                if (meleeNode != null)
+                {
+                    character.MeleeAttackBonus = new AttackBonusDetail
+                    {
+                        BaseAttackBonus = baseAttack,
+                        AbilityMod = GetInt(meleeNode.Element("abilitymod")),
+                        SizeBonus = GetInt(meleeNode.Element("size")),
+                        Misc = GetInt(meleeNode.Element("misc")),
+                        Temp = GetInt(meleeNode.Element("temporary")),
+                        Total = GetInt(meleeNode.Element("total"))
+                    };
+                }
+
+                var rangedNode = attackNode.Element("ranged");
+                if (rangedNode != null)
+                {
+                    character.RangedAttackBonus = new AttackBonusDetail
+                    {
+                        BaseAttackBonus = baseAttack,
+                        AbilityMod = GetInt(rangedNode.Element("abilitymod")),
+                        SizeBonus = GetInt(rangedNode.Element("size")),
+                        Misc = GetInt(rangedNode.Element("misc")),
+                        Temp = GetInt(rangedNode.Element("temporary")),
+                        Total = GetInt(rangedNode.Element("total"))
+                    };
+                }
+
+                var grappleNode = attackNode.Element("grapple");
+                if (grappleNode != null)
+                {
+                    character.CombatManeuverBonus = new AttackBonusDetail
+                    {
+                        BaseAttackBonus = baseAttack,
+                        AbilityMod = GetInt(grappleNode.Element("abilitymod")),
+                        SizeBonus = GetInt(grappleNode.Element("size")),
+                        Misc = GetInt(grappleNode.Element("misc")),
+                        Temp = GetInt(grappleNode.Element("temporary")),
+                        Total = GetInt(grappleNode.Element("total"))
+                    };
+                }
+            }
+
+            var acNode = charNode.Element("ac");
+            if (acNode != null)
+            {
+                var sources = acNode.Element("sources");
+                int abilityMod = GetInt(sources?.Element("abilitymod"));
+                int abilityMod2 = GetInt(sources?.Element("abilitymod2"));
+                int sizeMod = GetInt(sources?.Element("size"));
+                int armorBonus = GetInt(sources?.Element("armor"));
+                int shieldBonus = GetInt(sources?.Element("shield"));
+                int naturalArmor = GetInt(sources?.Element("naturalarmor"));
+                int dodge = GetInt(sources?.Element("dodge"));
+                int misc = GetInt(sources?.Element("misc"));
+                int deflection = GetInt(sources?.Element("deflection"));
+                int temp = GetInt(sources?.Element("temporary"));
+                int touchMisc = GetInt(sources?.Element("touchmisc"));
+                int ffMisc = GetInt(sources?.Element("ffmisc"));
+                int cmdBase = GetInt(sources?.Element("cmdbasemod"));
+                int cmdStr = abilityMod;
+                int cmdDex = abilityMod2;
+                int cmdMisc = GetInt(sources?.Element("cmdmisc"));
+
+                int baseMisc = misc + abilityMod2;
+
+                var totals = acNode.Element("totals");
+                int generalTotal = GetInt(totals?.Element("general"));
+                int touchTotal = GetInt(totals?.Element("touch"));
+                int flatTotal = GetInt(totals?.Element("flatfooted"));
+                int cmdTotal = GetInt(totals?.Element("cmd"));
+
+                character.ArmorClassBreakdown = new ArmorClassDetail
+                {
+                    DexModifier = abilityMod,
+                    SizeModifier = sizeMod,
+                    ArmorBonus = armorBonus,
+                    ShieldBonus = shieldBonus,
+                    NaturalArmor = naturalArmor,
+                    Dodge = dodge,
+                    Misc = baseMisc,
+                    Deflection = deflection,
+                    Temp = temp,
+                    Total = generalTotal
+                };
+
+                character.TouchArmorClassBreakdown = new ArmorClassDetail
+                {
+                    DexModifier = abilityMod,
+                    SizeModifier = sizeMod,
+                    ArmorBonus = 0,
+                    ShieldBonus = 0,
+                    NaturalArmor = 0,
+                    Dodge = dodge,
+                    Misc = baseMisc + touchMisc,
+                    Deflection = deflection,
+                    Temp = temp,
+                    Total = touchTotal
+                };
+
+                character.FlatFootedArmorClassBreakdown = new ArmorClassDetail
+                {
+                    DexModifier = 0,
+                    SizeModifier = sizeMod,
+                    ArmorBonus = armorBonus,
+                    ShieldBonus = shieldBonus,
+                    NaturalArmor = naturalArmor,
+                    Dodge = 0,
+                    Misc = baseMisc + ffMisc,
+                    Deflection = deflection,
+                    Temp = temp,
+                    Total = flatTotal
+                };
+
+                character.CombatManeuverDefense = new CmdDetail
+                {
+                    BaseAttackBonus = cmdBase,
+                    StrBonus = cmdStr,
+                    DexBonus = cmdDex,
+                    SizeBonus = sizeMod,
+                    Misc = cmdMisc,
+                    Total = cmdTotal
+                };
+            }
 
             // Optional collections: skills, feats, equipment and spells can
             // appear at various depths, so search the entire character node.
             character.Skills.AddRange(
                 charNode.Descendants("skill").Select(e => (string?)e.Attribute("name") ?? e.Value));
-            character.Feats.AddRange(
-                charNode.Descendants("feat").Select(e => (string?)e.Attribute("name") ?? e.Value));
-            character.Equipment.AddRange(
-                charNode.Descendants("item").Select(e => (string?)e.Attribute("name") ?? e.Value));
+
+            var skillList = charNode.Element("skilllist");
+            if (skillList != null)
+            {
+                foreach (var skill in skillList.Elements())
+                {
+                    var label = GetString(skill.Element("label")) ?? string.Empty;
+                    var sub = GetString(skill.Element("sublabel"));
+                    var ranks = GetInt(skill.Element("ranks"));
+                    var misc = GetInt(skill.Element("misc"));
+                    var statName = (GetString(skill.Element("statname")) ?? string.Empty).ToLowerInvariant();
+
+                    int abilityScore = statName switch
+                    {
+                        "strength" => character.Strength,
+                        "dexterity" => character.Dexterity,
+                        "constitution" => character.Constitution,
+                        "intelligence" => character.Intelligence,
+                        "wisdom" => character.Wisdom,
+                        "charisma" => character.Charisma,
+                        _ => 0
+                    };
+
+                    int abilityMod = AbilityMod(abilityScore);
+                    var abilityAbbrev = statName switch
+                    {
+                        "strength" => "STR",
+                        "dexterity" => "DEX",
+                        "constitution" => "CON",
+                        "intelligence" => "INT",
+                        "wisdom" => "WIS",
+                        "charisma" => "CHA",
+                        _ => string.Empty
+                    };
+
+                    var total = ranks + abilityMod + misc;
+                    var name = string.IsNullOrWhiteSpace(sub) ? label : $"{label} ({sub})";
+                    character.Skills.Add(name);
+                    character.SkillDetails.Add(new SkillDetail
+                    {
+                        Name = name,
+                        Ability = abilityAbbrev,
+                        AbilityBonus = abilityMod,
+                        Ranks = ranks,
+                        Misc = misc,
+                        Total = total
+                    });
+                }
+            }
+
+            // Special abilities and traits
+            var specialList = charNode.Element("specialabilitylist");
+            if (specialList != null)
+            {
+                foreach (var ability in specialList.Elements())
+                {
+                    var name = GetString(ability.Element("name")) ?? string.Empty;
+                    var source = GetString(ability.Element("source")) ?? string.Empty;
+                    var type = GetString(ability.Element("type")) ?? string.Empty;
+                    var text = GetFormatted(ability.Element("text"));
+
+                    if (!string.IsNullOrEmpty(type) && type.Contains("Trait", System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        var traitSource = type.Replace("Trait - ", string.Empty, System.StringComparison.OrdinalIgnoreCase);
+                        character.Traits.Add(new Trait
+                        {
+                            Name = name,
+                            Source = traitSource,
+                            Text = text
+                        });
+                    }
+                    else
+                    {
+                        character.SpecialAbilities.Add(new SpecialAbility
+                        {
+                            Name = name,
+                            Source = source,
+                            Text = text
+                        });
+                    }
+                }
+            }
+
+            // Feats
+            var featList = charNode.Element("featlist");
+            if (featList != null)
+            {
+                foreach (var feat in featList.Elements())
+                {
+                    var name = GetString(feat.Element("name")) ?? string.Empty;
+                    var summary = GetString(feat.Element("summary")) ?? string.Empty;
+                    var type = GetString(feat.Element("type")) ?? string.Empty;
+                    var prereq = GetString(feat.Element("prerequisites")) ?? string.Empty;
+                    var benefit = GetFormatted(feat.Element("benefit"));
+                    var normal = GetFormatted(feat.Element("normal"));
+                    var special = GetFormatted(feat.Element("special"));
+
+                    character.Feats.Add(name);
+                    character.FeatDetails.Add(new FeatDetail
+                    {
+                        Name = name,
+                        Summary = summary,
+                        Type = type,
+                        Prerequisites = prereq,
+                        Benefit = benefit,
+                        Normal = normal,
+                        Special = special
+                    });
+                }
+            }
+
+            // Proficiencies
+            var profList = charNode.Element("proficiencylist");
+            if (profList != null)
+            {
+                foreach (var prof in profList.Elements())
+                {
+                    var name = GetString(prof.Element("name"));
+                    if (!string.IsNullOrWhiteSpace(name))
+                    {
+                        character.Proficiencies.Add(name);
+                    }
+                }
+            }
+
+            // Equipment
+            var inventory = charNode.Element("inventorylist");
+            if (inventory != null)
+            {
+                foreach (var item in inventory.Elements())
+                {
+                    var name = GetString(item.Element("name")) ?? string.Empty;
+                    var type = GetString(item.Element("type")) ?? string.Empty;
+                    var subtype = GetString(item.Element("subtype")) ?? string.Empty;
+                    var cost = GetString(item.Element("cost")) ?? string.Empty;
+                    var weight = GetString(item.Element("weight")) ?? string.Empty;
+                    var desc = GetFormatted(item.Element("description"));
+
+                    character.Equipment.Add(name);
+                    character.EquipmentDetails.Add(new EquipmentItem
+                    {
+                        Name = name,
+                        Type = type,
+                        Subtype = subtype,
+                        Cost = cost,
+                        Weight = weight,
+                        Description = desc
+                    });
+                }
+            }
+
             character.Spells.AddRange(
                 charNode.Descendants("spell").Select(e => (string?)e.Attribute("name") ?? e.Value));
 
