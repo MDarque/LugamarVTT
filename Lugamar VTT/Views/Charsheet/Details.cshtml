@@ -1,6 +1,7 @@
 @model LugamarVTT.Models.Character
 @using System
 @using System.Linq
+@using System.Text.Json
 
 @{
     ViewData["Title"] = Model?.Name ?? "Character Details";
@@ -10,9 +11,6 @@
     <link rel="stylesheet" href="~/css/charsheet.css" />
 }
 
-@functions {
-    int Mod(int score) => (int)Math.Floor((score - 10) / 2.0);
-}
 
 <h1 class="mt-4 mb-3">@Model?.Name</h1>
 <a asp-action="Index" class="btn btn-secondary mb-3">&larr; Back to list</a>
@@ -51,38 +49,56 @@
             <div class="card h-100 shadow-sm">
                 <div class="card-header">Ability Scores</div>
                 <div class="card-body">
-                    <div class="ability-scores">
-                        <div class="ability">
-                            <label>STR</label>
-                            <input class="form-control mb-1 text-center" readonly value="@Model?.Strength" />
-                            <input class="form-control text-center" readonly value="@Mod(Model?.Strength ?? 0)" />
-                        </div>
-                        <div class="ability">
-                            <label>DEX</label>
-                            <input class="form-control mb-1 text-center" readonly value="@Model?.Dexterity" />
-                            <input class="form-control text-center" readonly value="@Mod(Model?.Dexterity ?? 0)" />
-                        </div>
-                        <div class="ability">
-                            <label>CON</label>
-                            <input class="form-control mb-1 text-center" readonly value="@Model?.Constitution" />
-                            <input class="form-control text-center" readonly value="@Mod(Model?.Constitution ?? 0)" />
-                        </div>
-                        <div class="ability">
-                            <label>INT</label>
-                            <input class="form-control mb-1 text-center" readonly value="@Model?.Intelligence" />
-                            <input class="form-control text-center" readonly value="@Mod(Model?.Intelligence ?? 0)" />
-                        </div>
-                        <div class="ability">
-                            <label>WIS</label>
-                            <input class="form-control mb-1 text-center" readonly value="@Model?.Wisdom" />
-                            <input class="form-control text-center" readonly value="@Mod(Model?.Wisdom ?? 0)" />
-                        </div>
-                        <div class="ability">
-                            <label>CHA</label>
-                            <input class="form-control mb-1 text-center" readonly value="@Model?.Charisma" />
-                            <input class="form-control text-center" readonly value="@Mod(Model?.Charisma ?? 0)" />
-                        </div>
-                    </div>
+@{
+    var abilityList = new[]
+    {
+        new { Key = "strength", Abbr = "STR", Full = "Strength" },
+        new { Key = "dexterity", Abbr = "DEX", Full = "Dexterity" },
+        new { Key = "constitution", Abbr = "CON", Full = "Constitution" },
+        new { Key = "intelligence", Abbr = "INT", Full = "Intelligence" },
+        new { Key = "wisdom", Abbr = "WIS", Full = "Wisdom" },
+        new { Key = "charisma", Abbr = "CHA", Full = "Charisma" }
+    };
+    var jsonOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+}
+                    <table class="table table-bordered ability-table mb-0">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Score</th>
+                                <th>Mod</th>
+                                <th>Base</th>
+                                <th>Dmg</th>
+                                <th>Perm</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+@foreach (var ability in abilityList)
+{
+    LugamarVTT.Models.AbilityScore? data = null;
+    if (Model != null && Model.Abilities.TryGetValue(ability.Key, out var found))
+    {
+        data = found;
+    }
+    data ??= new LugamarVTT.Models.AbilityScore();
+                            <tr>
+                                <th class="ability-name">
+                                    <div class="abbr">@ability.Abbr</div>
+                                    <div class="full">@ability.Full</div>
+                                </th>
+                                <td><input class="form-control text-center" readonly value="@data.Score" /></td>
+                                <td><input class="form-control text-center" readonly value="@data.Bonus" /></td>
+                                <td><input class="form-control text-center" readonly value="@data.Base" /></td>
+                                <td><input class="form-control text-center" readonly value="@data.Damage" /></td>
+                                <td>
+                                    <input class="form-control text-center" readonly value="@data.Perm"
+                                           data-bs-toggle="modal" data-bs-target="#permModal"
+                                           data-perms='@Html.Raw(JsonSerializer.Serialize(data.Perms, jsonOptions))' />
+                                </td>
+                            </tr>
+}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -476,4 +492,43 @@
         </div>
     </div>
     }
+    <div class="modal fade" id="permModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Permanent Adjustments</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Perm</th>
+                                <th>Type</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        const permModal = document.getElementById('permModal');
+        permModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget;
+            const perms = JSON.parse(button.getAttribute('data-perms') || '[]');
+            const body = permModal.querySelector('tbody');
+            body.innerHTML = '';
+            perms.forEach(p => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${p.permNum ?? ''}</td><td>${p.bonusType ?? ''}</td><td>${p.name ?? ''}</td>`;
+                body.appendChild(row);
+            });
+        });
+    </script>
+}
