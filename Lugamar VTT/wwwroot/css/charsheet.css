@@ -1,4 +1,6 @@
-
+BODY {
+    background-color: #d6d7d6;
+}
 /* Ability score table */
 .ability-table th,
 .ability-table td {
