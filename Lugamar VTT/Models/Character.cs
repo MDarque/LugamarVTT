@@ -25,13 +25,8 @@ namespace LugamarVTT.Models
         public string? Alignment { get; set; }
         public int Level { get; set; }
 
-        // Ability scores
-        public int Strength { get; set; }
-        public int Dexterity { get; set; }
-        public int Constitution { get; set; }
-        public int Intelligence { get; set; }
-        public int Wisdom { get; set; }
-        public int Charisma { get; set; }
+        // Ability scores keyed by ability name (e.g. "strength", "dexterity")
+        public Dictionary<string, AbilityScore> Abilities { get; set; } = new();
 
         // Combat statistics
         public int ArmorClass { get; set; }
