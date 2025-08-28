@@ -272,4 +272,56 @@ public class XmlDataServiceTests
             Directory.Delete(tempDir, true);
         }
     }
+
+    [Fact]
+    public void GetCharacters_ParsesHitPointsAndDefenses()
+    {
+        var tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        Directory.CreateDirectory(tempDir);
+        try
+        {
+            File.WriteAllText(Path.Combine(tempDir, "db.xml"), """
+<root>
+  <charsheet>
+    <hp>
+      <current>10</current>
+      <total>12</total>
+      <temporary>2</temporary>
+      <wounds>1</wounds>
+      <nonlethal>3</nonlethal>
+    </hp>
+    <defenses>
+      <damagereduction>5/magic</damagereduction>
+      <sr>
+        <total>15</total>
+      </sr>
+      <resistances>fire 10</resistances>
+      <immunities>poison</immunities>
+      <specialqualities>darkvision</specialqualities>
+    </defenses>
+  </charsheet>
+</root>
+""");
+
+            var env = new TestHostEnvironment(tempDir);
+            var service = new XmlDataService(NullLogger<XmlDataService>.Instance, env);
+
+            var character = service.GetCharacters().Single();
+
+            Assert.Equal(12, character.HitPoints);
+            Assert.Equal(10, character.CurrentHitPoints);
+            Assert.Equal(2, character.TempHitPoints);
+            Assert.Equal(1, character.Wounds);
+            Assert.Equal(3, character.NonLethalDamage);
+            Assert.Equal("5/magic", character.DamageReduction);
+            Assert.Equal(15, character.SpellResistance);
+            Assert.Equal("fire 10", character.Resistances);
+            Assert.Equal("poison", character.Immunities);
+            Assert.Equal("darkvision", character.SpecialQualities);
+        }
+        finally
+        {
+            Directory.Delete(tempDir, true);
+        }
+    }
 }

@@ -168,13 +168,49 @@
             <div class="card shadow-sm mb-4">
                 <div class="card-header">Hit Points</div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label">Current</label>
-                        <input class="form-control" readonly value="@Model?.CurrentHitPoints" />
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label">Current</label>
+                            <input class="form-control" readonly value="@Model?.CurrentHitPoints" />
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Total</label>
+                            <input class="form-control" readonly value="@Model?.HitPoints" />
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Temp</label>
+                            <input class="form-control" readonly value="@Model?.TempHitPoints" />
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Wounds</label>
+                            <input class="form-control" readonly value="@Model?.Wounds" />
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Non-Lethal</label>
+                            <input class="form-control" readonly value="@Model?.NonLethalDamage" />
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label">Damage Reduction</label>
+                            <input class="form-control" readonly value="@Model?.DamageReduction" />
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Spell Resistance</label>
+                            <input class="form-control" readonly value="@Model?.SpellResistance" />
+                        </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Total</label>
-                        <input class="form-control" readonly value="@Model?.HitPoints" />
+                        <label class="form-label">Resistances</label>
+                        <input class="form-control" readonly value="@Model?.Resistances" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Immunities</label>
+                        <input class="form-control" readonly value="@Model?.Immunities" />
+                    </div>
+                    <div>
+                        <label class="form-label">Other Special Qualities</label>
+                        <input class="form-control" readonly value="@Model?.SpecialQualities" />
                     </div>
                 </div>
             </div>
