@@ -6,6 +6,10 @@
     vertical-align: middle;
 }
 
+.ability-table td {
+    padding: 0;
+}
+
 .ability-table .ability-name {
     padding: 0;
     width: 120px;
