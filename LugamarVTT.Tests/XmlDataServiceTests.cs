@@ -203,4 +203,72 @@ public class XmlDataServiceTests
             Directory.Delete(tempDir, true);
         }
     }
+
+    [Fact]
+    public void GetCharacters_ParsesAdditionalCharacterInfoAndClasses()
+    {
+        var tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        Directory.CreateDirectory(tempDir);
+        try
+        {
+            File.WriteAllText(Path.Combine(tempDir, "db.xml"), """
+<root>
+  <charsheet>
+    <name>Hero</name>
+    <gender>M</gender>
+    <age>25</age>
+    <height>6'</height>
+    <weight>180 lb</weight>
+    <size>Medium</size>
+    <alignment>NG</alignment>
+    <deity>None</deity>
+    <race>Human</race>
+    <exp>1000</exp>
+    <expneeded>2000</expneeded>
+    <classes>
+      <id-00001>
+        <name>Fighter</name>
+        <level>2</level>
+        <favored>1</favored>
+        <skillranks>4</skillranks>
+        <skillranksused>2</skillranksused>
+      </id-00001>
+      <id-00002>
+        <name>Wizard</name>
+        <level>1</level>
+        <favored>0</favored>
+        <skillranks>2</skillranks>
+        <skillranksused>2</skillranksused>
+      </id-00002>
+    </classes>
+  </charsheet>
+</root>
+""");
+
+            var env = new TestHostEnvironment(tempDir);
+            var service = new XmlDataService(NullLogger<XmlDataService>.Instance, env);
+
+            var character = service.GetCharacters().Single();
+
+            Assert.Equal("M", character.Gender);
+            Assert.Equal("25", character.Age);
+            Assert.Equal("6'", character.Height);
+            Assert.Equal("180 lb", character.Weight);
+            Assert.Equal("Medium", character.Size);
+            Assert.Equal("None", character.Deity);
+            Assert.Equal(1000, character.Experience);
+            Assert.Equal(2000, character.ExperienceNeeded);
+            Assert.Equal(2, character.Classes.Count);
+            var cls = character.Classes[0];
+            Assert.Equal("Fighter", cls.Name);
+            Assert.Equal(2, cls.Level);
+            Assert.True(cls.Favored);
+            Assert.Equal(4, cls.SkillRanks);
+            Assert.Equal(2, cls.SkillRanksUsed);
+        }
+        finally
+        {
+            Directory.Delete(tempDir, true);
+        }
+    }
 }
