@@ -1,17 +1,6 @@
-.charsheet {
-    display: grid;
-    gap: 1rem;
-}
-
-@media (min-width: 768px) {
-    .charsheet {
-        grid-template-columns: 200px 1fr;
-    }
-}
-
 .ability-scores {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
 }
 
@@ -21,59 +10,17 @@
     padding: 0.5rem;
     background-color: #f8f9fa;
     border-radius: .25rem;
+    width: 80px;
 }
 
-.ability .label {
+.ability label {
     font-weight: bold;
     font-size: 0.8rem;
+    display:block;
 }
 
-.ability .score {
-    font-size: 1.5rem;
-    font-weight: bold;
-    display: block;
-}
-
-.ability .mod {
-    font-size: 1rem;
-    display: block;
-}
-
-
-.main {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-}
-
-@media (min-width: 768px) {
-    .main {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    }
-}
-
-.skills-section {
-    grid-column: 1 / -1;
-}
-
-.skills-table,
-.sheet-table {
+.sheet-table input {
     width: 100%;
-    border-collapse: collapse;
-}
-
-.skills-table th,
-.skills-table td,
-.sheet-table th,
-.sheet-table td {
-    border: 1px solid #dee2e6;
-    padding: 0.25rem;
-    font-size: 0.85rem;
-}
-
-.skills-table th,
-.sheet-table th {
-    background-color: #f8f9fa;
 }
 
 .disabled-cell {

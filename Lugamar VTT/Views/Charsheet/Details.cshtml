@@ -18,246 +18,286 @@
 <a asp-action="Index" class="btn btn-secondary mb-3">&larr; Back to list</a>
 
 <div class="charsheet">
-    <aside>
-        <div class="card h-100 shadow-sm">
-            <div class="card-header">Ability Scores</div>
-            <div class="card-body ability-scores">
-                <div class="ability">
-                    <span class="label">STR</span>
-                    <span class="score">@Model?.Strength</span>
-                    <span class="mod">@Mod(Model?.Strength ?? 0)</span>
-                </div>
-                <div class="ability">
-                    <span class="label">DEX</span>
-                    <span class="score">@Model?.Dexterity</span>
-                    <span class="mod">@Mod(Model?.Dexterity ?? 0)</span>
-                </div>
-                <div class="ability">
-                    <span class="label">CON</span>
-                    <span class="score">@Model?.Constitution</span>
-                    <span class="mod">@Mod(Model?.Constitution ?? 0)</span>
-                </div>
-                <div class="ability">
-                    <span class="label">INT</span>
-                    <span class="score">@Model?.Intelligence</span>
-                    <span class="mod">@Mod(Model?.Intelligence ?? 0)</span>
-                </div>
-                <div class="ability">
-                    <span class="label">WIS</span>
-                    <span class="score">@Model?.Wisdom</span>
-                    <span class="mod">@Mod(Model?.Wisdom ?? 0)</span>
-                </div>
-                <div class="ability">
-                    <span class="label">CHA</span>
-                    <span class="score">@Model?.Charisma</span>
-                    <span class="mod">@Mod(Model?.Charisma ?? 0)</span>
+    <!-- Row 1: Character Information -->
+    <div class="row mb-4">
+        <div class="col">
+            <div class="card shadow-sm">
+                <div class="card-header">Character Information</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Race</label>
+                        <input class="form-control" readonly value="@Model?.Race" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Class</label>
+                        <input class="form-control" readonly value="@Model?.Class" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Alignment</label>
+                        <input class="form-control" readonly value="@Model?.Alignment" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Level</label>
+                        <input class="form-control" readonly value="@Model?.Level" />
+                    </div>
                 </div>
             </div>
         </div>
-    </aside>
+    </div>
 
-    <div class="main">
-        <div class="section card shadow-sm basic-info">
-            <div class="card-header">Character Information</div>
-            <div class="card-body">
-                <dl class="row">
-                    <dt class="col-sm-3">Race</dt>
-                    <dd class="col-sm-9">@Model?.Race</dd>
-                    <dt class="col-sm-3">Class</dt>
-                    <dd class="col-sm-9">@Model?.Class</dd>
-                    <dt class="col-sm-3">Alignment</dt>
-                    <dd class="col-sm-9">@Model?.Alignment</dd>
-                    <dt class="col-sm-3">Level</dt>
-                    <dd class="col-sm-9">@Model?.Level</dd>
-                </dl>
+    <!-- Row 2: Ability Scores; Hit Points, Initiative & Speed -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header">Ability Scores</div>
+                <div class="card-body">
+                    <div class="ability-scores">
+                        <div class="ability">
+                            <label>STR</label>
+                            <input class="form-control mb-1 text-center" readonly value="@Model?.Strength" />
+                            <input class="form-control text-center" readonly value="@Mod(Model?.Strength ?? 0)" />
+                        </div>
+                        <div class="ability">
+                            <label>DEX</label>
+                            <input class="form-control mb-1 text-center" readonly value="@Model?.Dexterity" />
+                            <input class="form-control text-center" readonly value="@Mod(Model?.Dexterity ?? 0)" />
+                        </div>
+                        <div class="ability">
+                            <label>CON</label>
+                            <input class="form-control mb-1 text-center" readonly value="@Model?.Constitution" />
+                            <input class="form-control text-center" readonly value="@Mod(Model?.Constitution ?? 0)" />
+                        </div>
+                        <div class="ability">
+                            <label>INT</label>
+                            <input class="form-control mb-1 text-center" readonly value="@Model?.Intelligence" />
+                            <input class="form-control text-center" readonly value="@Mod(Model?.Intelligence ?? 0)" />
+                        </div>
+                        <div class="ability">
+                            <label>WIS</label>
+                            <input class="form-control mb-1 text-center" readonly value="@Model?.Wisdom" />
+                            <input class="form-control text-center" readonly value="@Mod(Model?.Wisdom ?? 0)" />
+                        </div>
+                        <div class="ability">
+                            <label>CHA</label>
+                            <input class="form-control mb-1 text-center" readonly value="@Model?.Charisma" />
+                            <input class="form-control text-center" readonly value="@Mod(Model?.Charisma ?? 0)" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="section card shadow-sm hp">
-            <div class="card-header">Hit Points</div>
-            <div class="card-body">
-                <dl class="row">
-                    <dt class="col-sm-4">Current</dt>
-                    <dd class="col-sm-8">@Model?.CurrentHitPoints</dd>
-                    <dt class="col-sm-4">Total</dt>
-                    <dd class="col-sm-8">@Model?.HitPoints</dd>
-                </dl>
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">Hit Points</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Current</label>
+                        <input class="form-control" readonly value="@Model?.CurrentHitPoints" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Total</label>
+                        <input class="form-control" readonly value="@Model?.HitPoints" />
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow-sm">
+                <div class="card-header">Initiative &amp; Speed</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Initiative</label>
+                        <input class="form-control" readonly value="@Model?.Initiative" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Speed</label>
+                        <input class="form-control" readonly value="@Model?.Speed" />
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
 
-        <div class="section card shadow-sm saves">
-            <div class="card-header">Saving Throws</div>
-            <div class="card-body">
-                <dl class="row">
-                    <dt class="col-sm-4">Fortitude</dt>
-                    <dd class="col-sm-8">@Model?.Fortitude</dd>
-                    <dt class="col-sm-4">Reflex</dt>
-                    <dd class="col-sm-8">@Model?.Reflex</dd>
-                    <dt class="col-sm-4">Will</dt>
-                    <dd class="col-sm-8">@Model?.Will</dd>
-                </dl>
+    <!-- Row 3: Armor Class -->
+    <div class="row mb-4">
+        <div class="col">
+            <div class="card shadow-sm">
+                <div class="card-header">Armor Class</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped sheet-table mb-4">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>DEX Modifier</th>
+                                <th>Size Modifier</th>
+                                <th>Armor Bonus</th>
+                                <th>Shield Bonus</th>
+                                <th>Natural Armor</th>
+                                <th>Dodge</th>
+                                <th>Misc</th>
+                                <th>Deflection</th>
+                                <th>Temp</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Armor Class</td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.DexModifier" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.SizeModifier" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.ArmorBonus" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.ShieldBonus" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.NaturalArmor" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.Dodge" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.Misc" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.Deflection" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.Temp" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.Total" /></td>
+                            </tr>
+                            <tr>
+                                <td>Touch</td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.DexModifier" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.SizeModifier" /></td>
+                                <td class="disabled-cell"><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.ArmorBonus" /></td>
+                                <td class="disabled-cell"><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.ShieldBonus" /></td>
+                                <td class="disabled-cell"><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.NaturalArmor" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.Dodge" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.Misc" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.Deflection" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.Temp" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.Total" /></td>
+                            </tr>
+                            <tr>
+                                <td>Flat-Footed</td>
+                                <td class="disabled-cell"><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.DexModifier" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.SizeModifier" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.ArmorBonus" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.ShieldBonus" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.NaturalArmor" /></td>
+                                <td class="disabled-cell"><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.Dodge" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.Misc" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.Deflection" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.Temp" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.Total" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-striped sheet-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Base Attack Bonus</th>
+                                <th>STR Bonus</th>
+                                <th>DEX Bonus</th>
+                                <th>Size Bonus</th>
+                                <th>Misc</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>CMD</td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.BaseAttackBonus" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.StrBonus" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.DexBonus" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.SizeBonus" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.Misc" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.Total" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+    </div>
 
-        <div class="section card shadow-sm speed-init">
-            <div class="card-header">Speed &amp; Initiative</div>
-            <div class="card-body">
-                <dl class="row">
-                    <dt class="col-sm-4">Speed</dt>
-                    <dd class="col-sm-8">@Model?.Speed</dd>
-                    <dt class="col-sm-4">Initiative</dt>
-                    <dd class="col-sm-8">@Model?.Initiative</dd>
-                </dl>
+    <!-- Row 4: Saving Throws -->
+    <div class="row mb-4">
+        <div class="col">
+            <div class="card shadow-sm">
+                <div class="card-header">Saving Throws</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Fortitude</label>
+                        <input class="form-control" readonly value="@Model?.Fortitude" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Reflex</label>
+                        <input class="form-control" readonly value="@Model?.Reflex" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Will</label>
+                        <input class="form-control" readonly value="@Model?.Will" />
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
 
-        <div class="section card shadow-sm armor-class">
-            <div class="card-header">Armor Class</div>
-            <div class="card-body">
-                <table class="table table-sm table-striped sheet-table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>DEX Modifier</th>
-                            <th>Size Modifier</th>
-                            <th>Armor Bonus</th>
-                            <th>Shield Bonus</th>
-                            <th>Natural Armor</th>
-                            <th>Dodge</th>
-                            <th>Misc</th>
-                            <th>Deflection</th>
-                            <th>Temp</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Armor Class</td>
-                            <td>@Model?.ArmorClassBreakdown.DexModifier</td>
-                            <td>@Model?.ArmorClassBreakdown.SizeModifier</td>
-                            <td>@Model?.ArmorClassBreakdown.ArmorBonus</td>
-                            <td>@Model?.ArmorClassBreakdown.ShieldBonus</td>
-                            <td>@Model?.ArmorClassBreakdown.NaturalArmor</td>
-                            <td>@Model?.ArmorClassBreakdown.Dodge</td>
-                            <td>@Model?.ArmorClassBreakdown.Misc</td>
-                            <td>@Model?.ArmorClassBreakdown.Deflection</td>
-                            <td>@Model?.ArmorClassBreakdown.Temp</td>
-                            <td>@Model?.ArmorClassBreakdown.Total</td>
-                        </tr>
-                        <tr>
-                            <td>Touch</td>
-                            <td>@Model?.TouchArmorClassBreakdown.DexModifier</td>
-                            <td>@Model?.TouchArmorClassBreakdown.SizeModifier</td>
-                            <td class="disabled-cell">@Model?.TouchArmorClassBreakdown.ArmorBonus</td>
-                            <td class="disabled-cell">@Model?.TouchArmorClassBreakdown.ShieldBonus</td>
-                            <td class="disabled-cell">@Model?.TouchArmorClassBreakdown.NaturalArmor</td>
-                            <td>@Model?.TouchArmorClassBreakdown.Dodge</td>
-                            <td>@Model?.TouchArmorClassBreakdown.Misc</td>
-                            <td>@Model?.TouchArmorClassBreakdown.Deflection</td>
-                            <td>@Model?.TouchArmorClassBreakdown.Temp</td>
-                            <td>@Model?.TouchArmorClassBreakdown.Total</td>
-                        </tr>
-                        <tr>
-                            <td>Flat-Footed</td>
-                            <td class="disabled-cell">@Model?.FlatFootedArmorClassBreakdown.DexModifier</td>
-                            <td>@Model?.FlatFootedArmorClassBreakdown.SizeModifier</td>
-                            <td>@Model?.FlatFootedArmorClassBreakdown.ArmorBonus</td>
-                            <td>@Model?.FlatFootedArmorClassBreakdown.ShieldBonus</td>
-                            <td>@Model?.FlatFootedArmorClassBreakdown.NaturalArmor</td>
-                            <td class="disabled-cell">@Model?.FlatFootedArmorClassBreakdown.Dodge</td>
-                            <td>@Model?.FlatFootedArmorClassBreakdown.Misc</td>
-                            <td>@Model?.FlatFootedArmorClassBreakdown.Deflection</td>
-                            <td>@Model?.FlatFootedArmorClassBreakdown.Temp</td>
-                            <td>@Model?.FlatFootedArmorClassBreakdown.Total</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="table table-sm table-striped sheet-table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Base Attack Bonus</th>
-                            <th>STR Bonus</th>
-                            <th>DEX Bonus</th>
-                            <th>Size Bonus</th>
-                            <th>Misc</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>CMD</td>
-                            <td>@Model?.CombatManeuverDefense.BaseAttackBonus</td>
-                            <td>@Model?.CombatManeuverDefense.StrBonus</td>
-                            <td>@Model?.CombatManeuverDefense.DexBonus</td>
-                            <td>@Model?.CombatManeuverDefense.SizeBonus</td>
-                            <td>@Model?.CombatManeuverDefense.Misc</td>
-                            <td>@Model?.CombatManeuverDefense.Total</td>
-                        </tr>
-                    </tbody>
-                </table>
+    <!-- Row 5: Attack Bonus -->
+    <div class="row mb-4">
+        <div class="col">
+            <div class="card shadow-sm">
+                <div class="card-header">Attack Bonus</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped sheet-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Base Attack Bonus</th>
+                                <th>STR Bonus</th>
+                                <th>DEX Bonus</th>
+                                <th>Size Bonus</th>
+                                <th>Misc</th>
+                                <th>Temp</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Base Attack Bonus</td>
+                                <td colspan="7"><input class="form-control form-control-sm" readonly value="@Model?.BaseAttackBonus" /></td>
+                            </tr>
+                            <tr>
+                                <td>Melee Attack</td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.BaseAttackBonus" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.AbilityMod" /></td>
+                                <td class="disabled-cell"><input class="form-control form-control-sm" readonly /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.SizeBonus" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.Misc" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.Temp" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.Total" /></td>
+                            </tr>
+                            <tr>
+                                <td>Ranged Attack</td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.BaseAttackBonus" /></td>
+                                <td class="disabled-cell"><input class="form-control form-control-sm" readonly /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.AbilityMod" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.SizeBonus" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.Misc" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.Temp" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.Total" /></td>
+                            </tr>
+                            <tr>
+                                <td>CMB</td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.BaseAttackBonus" /></td>
+                                <td class="disabled-cell"><input class="form-control form-control-sm" readonly /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.AbilityMod" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.SizeBonus" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.Misc" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.Temp" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.Total" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+    </div>
 
-        <div class="section card shadow-sm attack-bonus">
-            <div class="card-header">Attack Bonus</div>
-            <div class="card-body">
-                <table class="table table-sm table-striped sheet-table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Base Attack Bonus</th>
-                            <th>STR Bonus</th>
-                            <th>DEX Bonus</th>
-                            <th>Size Bonus</th>
-                            <th>Misc</th>
-                            <th>Temp</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Base Attack Bonus</td>
-                            <td colspan="7">@Model?.BaseAttackBonus</td>
-                        </tr>
-                        <tr>
-                            <td>Melee Attack</td>
-                            <td>@Model?.MeleeAttackBonus.BaseAttackBonus</td>
-                            <td>@Model?.MeleeAttackBonus.AbilityMod</td>
-                            <td class="disabled-cell"></td>
-                            <td>@Model?.MeleeAttackBonus.SizeBonus</td>
-                            <td>@Model?.MeleeAttackBonus.Misc</td>
-                            <td>@Model?.MeleeAttackBonus.Temp</td>
-                            <td>@Model?.MeleeAttackBonus.Total</td>
-                        </tr>
-                        <tr>
-                            <td>Ranged Attack</td>
-                            <td>@Model?.RangedAttackBonus.BaseAttackBonus</td>
-                            <td class="disabled-cell"></td>
-                            <td>@Model?.RangedAttackBonus.AbilityMod</td>
-                            <td>@Model?.RangedAttackBonus.SizeBonus</td>
-                            <td>@Model?.RangedAttackBonus.Misc</td>
-                            <td>@Model?.RangedAttackBonus.Temp</td>
-                            <td>@Model?.RangedAttackBonus.Total</td>
-                        </tr>
-                        <tr>
-                            <td>CMB</td>
-                            <td>@Model?.CombatManeuverBonus.BaseAttackBonus</td>
-                            <td class="disabled-cell"></td>
-                            <td>@Model?.CombatManeuverBonus.AbilityMod</td>
-                            <td>@Model?.CombatManeuverBonus.SizeBonus</td>
-                            <td>@Model?.CombatManeuverBonus.Misc</td>
-                            <td>@Model?.CombatManeuverBonus.Temp</td>
-                            <td>@Model?.CombatManeuverBonus.Total</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        @if (Model != null && Model.SkillDetails.Any())
-        {
-            <div class="section card shadow-sm skills-section">
+    <!-- Row 6: Skills -->
+    @if (Model != null && Model.SkillDetails.Any()) {
+    <div class="row mb-4">
+        <div class="col">
+            <div class="card shadow-sm">
                 <div class="card-header">Skills (@Model.SkillPointsSpent spent)</div>
                 <div class="card-body">
                     <table class="table table-sm table-striped sheet-table">
@@ -272,26 +312,54 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var skill in Model.SkillDetails)
-                            {
+                            @foreach (var skill in Model.SkillDetails) {
                                 <tr>
-                                    <td>@skill.Name</td>
-                                    <td>@skill.Ability</td>
-                                    <td>@skill.AbilityBonus</td>
-                                    <td>@skill.Ranks</td>
-                                    <td>@skill.Misc</td>
-                                    <td>@skill.Total</td>
+                                    <td><input class="form-control form-control-sm" readonly value="@skill.Name" /></td>
+                                    <td><input class="form-control form-control-sm" readonly value="@skill.Ability" /></td>
+                                    <td><input class="form-control form-control-sm" readonly value="@skill.AbilityBonus" /></td>
+                                    <td><input class="form-control form-control-sm" readonly value="@skill.Ranks" /></td>
+                                    <td><input class="form-control form-control-sm" readonly value="@skill.Misc" /></td>
+                                    <td><input class="form-control form-control-sm" readonly value="@skill.Total" /></td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
             </div>
-        }
+        </div>
+    </div>
+    }
 
-        @if (Model != null && Model.SpecialAbilities.Any())
-        {
-            <div class="section card shadow-sm">
+    <!-- Row 7: Feats; Special Abilities -->
+    <div class="row mb-4">
+        @if (Model != null && Model.FeatDetails.Any()) {
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="card shadow-sm h-100">
+                <div class="card-header">Feats</div>
+                <div class="card-body">
+                    <table class="table table-sm table-striped sheet-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Summary</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var feat in Model.FeatDetails) {
+                                <tr>
+                                    <td><input class="form-control form-control-sm" readonly value="@feat.Name" /></td>
+                                    <td><input class="form-control form-control-sm" readonly value="@feat.Summary" /></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        }
+        @if (Model != null && Model.SpecialAbilities.Any()) {
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
                 <div class="card-header">Special Abilities</div>
                 <div class="card-body">
                     <table class="table table-sm table-striped sheet-table">
@@ -303,88 +371,36 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var ability in Model.SpecialAbilities)
-                            {
+                            @foreach (var ability in Model.SpecialAbilities) {
                                 <tr>
-                                    <td>@ability.Name</td>
-                                    <td>@ability.Source</td>
-                                    <td>@Html.Raw(ability.Text)</td>
+                                    <td><input class="form-control form-control-sm" readonly value="@ability.Name" /></td>
+                                    <td><input class="form-control form-control-sm" readonly value="@ability.Source" /></td>
+                                    <td><input class="form-control form-control-sm" readonly value="@Html.Raw(ability.Text).ToString().Replace('\n',' ')" /></td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
             </div>
+        </div>
         }
+    </div>
 
-        @if (Model != null && Model.FeatDetails.Any())
-        {
-            <div class="section card shadow-sm feats-section">
-                <div class="card-header">Feats</div>
+    <!-- Row 8: Proficiencies; Traits -->
+    <div class="row mb-4">
+        @if (Model != null && Model.Proficiencies.Any()) {
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="card shadow-sm h-100">
+                <div class="card-header">Proficiencies</div>
                 <div class="card-body">
-                    <table class="table table-sm table-striped sheet-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Summary</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for (int i = 0; i < Model.FeatDetails.Count; i++)
-                            {
-                                var feat = Model.FeatDetails[i];
-                                var modalId = $"featModal{i}";
-                                <tr data-bs-toggle="modal" data-bs-target="#@modalId" style="cursor:pointer">
-                                    <td>@feat.Name</td>
-                                    <td>@feat.Summary</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-
-                    @for (int i = 0; i < Model.FeatDetails.Count; i++)
-                    {
-                        var feat = Model.FeatDetails[i];
-                        var modalId = $"featModal{i}";
-                        <div class="modal fade" id="@modalId" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">@feat.Name</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <dl>
-                                            <dt>Type</dt><dd>@feat.Type</dd>
-                                            @if (!string.IsNullOrEmpty(feat.Prerequisites))
-                                            {
-                                                <dt>Prerequisites</dt><dd>@feat.Prerequisites</dd>
-                                            }
-                                            @if (!string.IsNullOrEmpty(feat.Benefit))
-                                            {
-                                                <dt>Benefit</dt><dd>@Html.Raw(feat.Benefit)</dd>
-                                            }
-                                            @if (!string.IsNullOrEmpty(feat.Normal))
-                                            {
-                                                <dt>Normal</dt><dd>@Html.Raw(feat.Normal)</dd>
-                                            }
-                                            @if (!string.IsNullOrEmpty(feat.Special))
-                                            {
-                                                <dt>Special</dt><dd>@Html.Raw(feat.Special)</dd>
-                                            }
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
+                    <input class="form-control" readonly value="@string.Join(", ", Model.Proficiencies)" />
                 </div>
             </div>
+        </div>
         }
-
-        @if (Model != null && Model.Traits.Any())
-        {
-            <div class="section card shadow-sm">
+        @if (Model != null && Model.Traits.Any()) {
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
                 <div class="card-header">Traits</div>
                 <div class="card-body">
                     <table class="table table-sm table-striped sheet-table">
@@ -396,41 +412,31 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var trait in Model.Traits)
-                            {
+                            @foreach (var trait in Model.Traits) {
                                 <tr>
-                                    <td>@trait.Name</td>
-                                    <td>@trait.Source</td>
-                                    <td>@Html.Raw(trait.Text)</td>
+                                    <td><input class="form-control form-control-sm" readonly value="@trait.Name" /></td>
+                                    <td><input class="form-control form-control-sm" readonly value="@trait.Source" /></td>
+                                    <td><input class="form-control form-control-sm" readonly value="@Html.Raw(trait.Text).ToString().Replace('\n',' ')" /></td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
             </div>
+        </div>
         }
+    </div>
 
-        @if (Model != null && Model.Proficiencies.Any())
-        {
-            <div class="section card shadow-sm">
-                <div class="card-header">Proficiencies</div>
-                <div class="card-body">
-                    <p>@string.Join(", ", Model.Proficiencies)</p>
-                </div>
-            </div>
-        }
-
-        @if (Model != null && Model.EquipmentDetails.Any())
-        {
-            <div class="section card shadow-sm equipment-section">
+    <!-- Row 9: Equipment -->
+    @if (Model != null && Model.EquipmentDetails.Any()) {
+    <div class="row mb-4">
+        <div class="col">
+            <div class="card shadow-sm">
                 <div class="card-header">Equipment</div>
                 <div class="card-body">
-                    @foreach (var group in Model.EquipmentDetails.GroupBy(e => e.Type))
-                    {
-                        var items = group.ToList();
-                        var safeType = group.Key.Replace(" ", "");
+                    @foreach (var group in Model.EquipmentDetails.GroupBy(e => e.Type)) {
                         <h3>@group.Key</h3>
-                        <table class="table table-sm table-striped sheet-table">
+                        <table class="table table-sm table-striped sheet-table mb-4">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -440,57 +446,34 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for (int i = 0; i < items.Count; i++)
-                                {
-                                    var item = items[i];
-                                    var modalId = $"equipModal_{safeType}_{i}";
-                                    <tr data-bs-toggle="modal" data-bs-target="#@modalId" style="cursor:pointer">
-                                        <td>@item.Name</td>
-                                        <td>@item.Subtype</td>
-                                        <td>@item.Cost</td>
-                                        <td>@item.Weight</td>
+                                @foreach (var item in group) {
+                                    <tr>
+                                        <td><input class="form-control form-control-sm" readonly value="@item.Name" /></td>
+                                        <td><input class="form-control form-control-sm" readonly value="@item.Subtype" /></td>
+                                        <td><input class="form-control form-control-sm" readonly value="@item.Cost" /></td>
+                                        <td><input class="form-control form-control-sm" readonly value="@item.Weight" /></td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
-                        @for (int i = 0; i < items.Count; i++)
-                        {
-                            var item = items[i];
-                            var modalId = $"equipModal_{safeType}_{i}";
-                            <div class="modal fade" id="@modalId" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">@item.Name</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <dl>
-                                                <dt>Type</dt><dd>@item.Type</dd>
-                                                <dt>Subtype</dt><dd>@item.Subtype</dd>
-                                                <dt>Cost</dt><dd>@item.Cost</dd>
-                                                <dt>Weight</dt><dd>@item.Weight</dd>
-                                                <dt>Description</dt><dd>@Html.Raw(item.Description)</dd>
-                                            </dl>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
                     }
                 </div>
             </div>
-        }
+        </div>
+    </div>
+    }
 
-        @if (Model != null && Model.Spells.Any())
-        {
-            <div class="section card shadow-sm">
+    <!-- Row 10: Spells -->
+    @if (Model != null && Model.Spells.Any()) {
+    <div class="row mb-4">
+        <div class="col">
+            <div class="card shadow-sm">
                 <div class="card-header">Spells</div>
                 <div class="card-body">
-                    <p>@string.Join(", ", Model.Spells)</p>
+                    <input class="form-control" readonly value="@string.Join(", ", Model.Spells)" />
                 </div>
             </div>
-        }
+        </div>
     </div>
+    }
 </div>
-
