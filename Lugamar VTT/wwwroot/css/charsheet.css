@@ -1,3 +1,7 @@
+BODY {
+    color: #16171A;
+    background-color: #d6d7d6;
+}
 /* Card headers */
 .card-header {
     background-color: #20518a;
