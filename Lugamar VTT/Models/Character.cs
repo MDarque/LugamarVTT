@@ -49,6 +49,14 @@ namespace LugamarVTT.Models
         public ArmorClassDetail FlatFootedArmorClassBreakdown { get; set; } = new();
         public int HitPoints { get; set; }
         public int CurrentHitPoints { get; set; }
+        public int TempHitPoints { get; set; }
+        public int Wounds { get; set; }
+        public int NonLethalDamage { get; set; }
+        public string DamageReduction { get; set; } = string.Empty;
+        public int SpellResistance { get; set; }
+        public string Resistances { get; set; } = string.Empty;
+        public string Immunities { get; set; } = string.Empty;
+        public string SpecialQualities { get; set; } = string.Empty;
         public int Fortitude { get; set; }
         public int Reflex { get; set; }
         public int Will { get; set; }
