@@ -291,8 +291,9 @@ namespace LugamarVTT.Services
                 int touchMisc = GetInt(sources?.Element("touchmisc"));
                 int ffMisc = GetInt(sources?.Element("ffmisc"));
                 int cmdBase = GetInt(sources?.Element("cmdbasemod"));
-                int cmdStr = abilityMod;
-                int cmdDex = abilityMod2;
+                int cmdabilitymod = GetInt(sources?.Element("cmdabilitymod"));
+                int cmdStr = cmdabilitymod;
+                int cmdDex = cmdBase;
                 int cmdMisc = GetInt(sources?.Element("cmdmisc"));
 
                 int baseMisc = misc + abilityMod2;
