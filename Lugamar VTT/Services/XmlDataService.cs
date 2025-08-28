@@ -158,12 +158,6 @@ namespace LugamarVTT.Services
                     .Element("name")),
                 Alignment = GetString(charNode.Element("alignment")),
                 Level = GetInt(charNode.Element("level")),
-                Strength = GetInt(abilities?.Element("strength")?.Element("score")),
-                Dexterity = GetInt(abilities?.Element("dexterity")?.Element("score")),
-                Constitution = GetInt(abilities?.Element("constitution")?.Element("score")),
-                Intelligence = GetInt(abilities?.Element("intelligence")?.Element("score")),
-                Wisdom = GetInt(abilities?.Element("wisdom")?.Element("score")),
-                Charisma = GetInt(abilities?.Element("charisma")?.Element("score")),
                 ArmorClass = GetInt(charNode.Element("ac")?
                                             .Element("totals")?
                                             .Element("general")),
@@ -183,6 +177,38 @@ namespace LugamarVTT.Services
                 BaseAttackBonus = baseAttack,
                 SkillPointsSpent = GetInt(charNode.Element("skillpoints")?.Element("spent"))
             };
+
+            // Parse ability scores with modifiers and permanent adjustments
+            var abilityNames = new[] { "strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma" };
+            foreach (var name in abilityNames)
+            {
+                var node = abilities?.Element(name);
+                if (node == null)
+                {
+                    character.Abilities[name] = new AbilityScore();
+                    continue;
+                }
+
+                var perms = node.Element("abilperms")?.Elements()
+                    .Where(e => e.Name.LocalName.StartsWith("id-"))
+                    .Select(e => new AbilityPerm
+                    {
+                        PermNum = GetInt(e.Element("permnum")),
+                        BonusType = GetString(e.Element("bonus_type")),
+                        Name = GetString(e.Element("name"))
+                    })
+                    .ToList() ?? new List<AbilityPerm>();
+
+                character.Abilities[name] = new AbilityScore
+                {
+                    Score = GetInt(node.Element("score")),
+                    Bonus = GetInt(node.Element("bonus")),
+                    Base = GetInt(node.Element("base")),
+                    Damage = GetInt(node.Element("damage")),
+                    Perm = GetInt(node.Element("perm")),
+                    Perms = perms
+                };
+            }
 
             if (attackNode != null)
             {
@@ -327,18 +353,9 @@ namespace LugamarVTT.Services
                     var misc = GetInt(skill.Element("misc"));
                     var statName = (GetString(skill.Element("statname")) ?? string.Empty).ToLowerInvariant();
 
-                    int abilityScore = statName switch
-                    {
-                        "strength" => character.Strength,
-                        "dexterity" => character.Dexterity,
-                        "constitution" => character.Constitution,
-                        "intelligence" => character.Intelligence,
-                        "wisdom" => character.Wisdom,
-                        "charisma" => character.Charisma,
-                        _ => 0
-                    };
-
-                    int abilityMod = AbilityMod(abilityScore);
+                    character.Abilities.TryGetValue(statName, out var abilityDetail);
+                    int abilityScore = abilityDetail?.Score ?? 0;
+                    int abilityMod = abilityDetail?.Bonus ?? AbilityMod(abilityScore);
                     var abilityAbbrev = statName switch
                     {
                         "strength" => "STR",
