@@ -1,12 +1,17 @@
 .charsheet {
     display: grid;
-    grid-template-columns: 160px 1fr;
     gap: 1rem;
 }
 
+@media (min-width: 768px) {
+    .charsheet {
+        grid-template-columns: 200px 1fr;
+    }
+}
+
 .ability-scores {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
     gap: 0.5rem;
 }
 
@@ -15,6 +20,7 @@
     text-align: center;
     padding: 0.5rem;
     background-color: #f8f9fa;
+    border-radius: .25rem;
 }
 
 .ability .label {
@@ -35,17 +41,30 @@
 
 .section {
     margin-bottom: 1rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    padding: 1rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
 .section h2 {
     font-size: 1.25rem;
     margin-bottom: 0.5rem;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 0.25rem;
 }
 
 .main {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: 1fr;
     gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .main {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
 }
 
 .skills-section {
@@ -62,14 +81,14 @@
 .skills-table td,
 .sheet-table th,
 .sheet-table td {
-    border: 1px solid #000;
+    border: 1px solid #dee2e6;
     padding: 0.25rem;
     font-size: 0.85rem;
 }
 
 .skills-table th,
 .sheet-table th {
-    background-color: #f0f0f0;
+    background-color: #f8f9fa;
 }
 
 .disabled-cell {

@@ -12,8 +12,9 @@
 }
 else
 {
-<table class="table table-bordered table-hover">
-        <thead class="thead-dark">
+    <div class="table-responsive">
+    <table class="table table-bordered table-hover table-striped">
+        <thead class="table-dark">
             <tr>
                 <th>Name</th>
                 <th>Race</th>
@@ -34,9 +35,10 @@ else
                     <td>@pc.Race</td>
                     <td>@pc.Class</td>
                     <td>@pc.Level</td>
-                    <td>@pc.Alignment</td>
+                <td>@pc.Alignment</td>
                 </tr>
             }
         </tbody>
     </table>
+    </div>
 }
