@@ -194,7 +194,7 @@ public class XmlDataServiceTests
             Assert.Equal(11, character.CombatManeuverBonus.Total);
             Assert.Equal(3, character.CombatManeuverDefense.BaseAttackBonus);
             Assert.Equal(1, character.CombatManeuverDefense.StrBonus);
-            Assert.Equal(2, character.CombatManeuverDefense.DexBonus);
+            Assert.Equal(3, character.CombatManeuverDefense.DexBonus);
             Assert.Equal(1, character.CombatManeuverDefense.SizeBonus);
             Assert.Equal(3, character.CombatManeuverDefense.Misc);
             Assert.Equal(20, character.CombatManeuverDefense.Total);
