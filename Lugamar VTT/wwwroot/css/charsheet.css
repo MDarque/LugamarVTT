@@ -39,21 +39,6 @@
     display: block;
 }
 
-.section {
-    margin-bottom: 1rem;
-    background-color: #fff;
-    border: 1px solid #dee2e6;
-    border-radius: .25rem;
-    padding: 1rem;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-}
-
-.section h2 {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
-    border-bottom: 1px solid #dee2e6;
-    padding-bottom: 0.25rem;
-}
 
 .main {
     display: grid;
