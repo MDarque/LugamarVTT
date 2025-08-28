@@ -2,6 +2,7 @@
 @using System
 @using System.Linq
 @using System.Text.Json
+@using LugamarVTT.Models
 
 @{
     ViewData["Title"] = Model?.Name ?? "Character Details";
@@ -22,21 +23,82 @@
             <div class="card shadow-sm">
                 <div class="card-header">Character Information</div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label">Race</label>
-                        <input class="form-control" readonly value="@Model?.Race" />
+                    <div class="row mb-3">
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <label class="form-label">Name</label>
+                            <input class="form-control" readonly value="@Model?.Name" />
+                        </div>
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <label class="form-label">Gender</label>
+                            <input class="form-control" readonly value="@Model?.Gender" />
+                        </div>
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <label class="form-label">Age</label>
+                            <input class="form-control" readonly value="@Model?.Age" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Height</label>
+                            <input class="form-control" readonly value="@Model?.Height" />
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Class</label>
-                        <input class="form-control" readonly value="@Model?.Class" />
+                    <div class="row mb-3">
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <label class="form-label">Weight</label>
+                            <input class="form-control" readonly value="@Model?.Weight" />
+                        </div>
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <label class="form-label">Size</label>
+                            <input class="form-control" readonly value="@Model?.Size" />
+                        </div>
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <label class="form-label">Alignment</label>
+                            <input class="form-control" readonly value="@Model?.Alignment" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Deity</label>
+                            <input class="form-control" readonly value="@Model?.Deity" />
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Alignment</label>
-                        <input class="form-control" readonly value="@Model?.Alignment" />
+                    <div class="row mb-3">
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <label class="form-label">Race</label>
+                            <input class="form-control" readonly value="@Model?.Race" />
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <label class="form-label">XP</label>
+                            <input class="form-control" readonly value="@Model?.Experience" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">XP Needed</label>
+                            <input class="form-control" readonly value="@Model?.ExperienceNeeded" />
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Level</label>
-                        <input class="form-control" readonly value="@Model?.Level" />
+                    <div class="table-responsive">
+                        <table class="table table-sm mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Level</th>
+                                    <th>Favored</th>
+                                    <th>Skill Ranks</th>
+                                    <th>Skill Ranks Used</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var cls in Model?.Classes ?? Enumerable.Empty<CharacterClass>())
+                                {
+                                    <tr>
+                                        <td>@cls.Name</td>
+                                        <td>@cls.Level</td>
+                                        <td class="text-center">
+                                            <input class="form-check-input" type="checkbox" disabled @(cls.Favored ? "checked" : string.Empty) />
+                                        </td>
+                                        <td>@cls.SkillRanks</td>
+                                        <td>@cls.SkillRanksUsed</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

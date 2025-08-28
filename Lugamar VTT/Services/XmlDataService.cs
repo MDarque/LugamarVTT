@@ -143,6 +143,20 @@ namespace LugamarVTT.Services
             // Ability scores are nested within <abilities>/<ability>/<score>.
             var abilities = charNode.Element("abilities");
 
+            // Character classes
+            var classesNode = charNode.Element("classes");
+            var classList = classesNode?.Elements()
+                .Where(e => e.Name.LocalName.StartsWith("id-"))
+                .Select(e => new CharacterClass
+                {
+                    Name = GetString(e.Element("name")),
+                    Level = GetInt(e.Element("level")),
+                    Favored = GetInt(e.Element("favored")) == 1,
+                    SkillRanks = GetInt(e.Element("skillranks")),
+                    SkillRanksUsed = GetInt(e.Element("skillranksused"))
+                })
+                .ToList() ?? new List<CharacterClass>();
+
             var attackNode = charNode.Element("attackbonus");
             int baseAttack = GetInt(attackNode?.Element("base"));
 
@@ -150,14 +164,19 @@ namespace LugamarVTT.Services
             {
                 Id = id,
                 Name = GetString(charNode.Element("name")),
-                Race = GetString(charNode.Element("race")),
-                Class = GetString(charNode
-                    .Element("classes")?
-                    .Elements()
-                    .FirstOrDefault(e => e.Name.LocalName.StartsWith("id-"))?
-                    .Element("name")),
+                Gender = GetString(charNode.Element("gender")),
+                Age = GetString(charNode.Element("age")),
+                Height = GetString(charNode.Element("height")),
+                Weight = GetString(charNode.Element("weight")),
+                Size = GetString(charNode.Element("size")),
                 Alignment = GetString(charNode.Element("alignment")),
+                Deity = GetString(charNode.Element("deity")),
+                Race = GetString(charNode.Element("race")),
+                Class = classList.FirstOrDefault()?.Name,
                 Level = GetInt(charNode.Element("level")),
+                Experience = GetInt(charNode.Element("exp")),
+                ExperienceNeeded = GetInt(charNode.Element("expneeded")),
+                Classes = classList,
                 ArmorClass = GetInt(charNode.Element("ac")?
                                             .Element("totals")?
                                             .Element("general")),
@@ -272,8 +291,9 @@ namespace LugamarVTT.Services
                 int touchMisc = GetInt(sources?.Element("touchmisc"));
                 int ffMisc = GetInt(sources?.Element("ffmisc"));
                 int cmdBase = GetInt(sources?.Element("cmdbasemod"));
-                int cmdStr = abilityMod;
-                int cmdDex = abilityMod2;
+                int cmdabilitymod = GetInt(sources?.Element("cmdabilitymod"));
+                int cmdStr = cmdabilitymod;
+                int cmdDex = cmdBase;
                 int cmdMisc = GetInt(sources?.Element("cmdmisc"));
 
                 int baseMisc = misc + abilityMod2;
