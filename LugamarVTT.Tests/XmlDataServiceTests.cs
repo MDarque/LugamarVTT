@@ -144,6 +144,7 @@ public class XmlDataServiceTests
         <abilitymod2>2</abilitymod2>
         <size>1</size>
         <cmdbasemod>3</cmdbasemod>
+        <cmdabilitymod>1</cmdabilitymod>
         <cmdmisc>3</cmdmisc>
       </sources>
       <totals>
