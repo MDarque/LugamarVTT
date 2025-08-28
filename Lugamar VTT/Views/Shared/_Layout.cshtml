@@ -1,5 +1,3 @@
-@using Microsoft.AspNetCore.Http
-@inject IHttpContextAccessor HttpContextAccessor
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,9 +7,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           integrity="sha384-lZN37f0uwDP7e9/70aBmxBvj+0q6Uptz1W6r4IbZci8s2Z/HAbUiu1q8PUM6cxC5"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css"
+          integrity="sha512-B7Cm1cW0XkyRjO6jwxKF1u9IiMaTZGi99ZTSdKCbFf8gDuwZQ+Q0imeISFRCGDpa2grLomqKgJo0vvArkH5AOQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
     @RenderSection("Styles", required: false)
 </head>
-<body>
+<body class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">LugamarVTT</a>
@@ -39,6 +40,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-vs9ZB1nJ5QTI8auMGq+baiq0SUCHs+jhyCgk8P9LyubEoArSOueg8LF0cydzFpVQ"
             crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.js"
+            integrity="sha512-gxvFeoJEB6Digw1VE3DybMT0SqnX+ANXoy2cuglRez2oJ6TP2PzefDs2fzGEylh4G6dkprdFM5lTyBC0bY4Z1w=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     @RenderSection("Scripts", required: false)
 </body>

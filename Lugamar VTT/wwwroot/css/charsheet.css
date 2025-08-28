@@ -1,12 +1,6 @@
-.charsheet {
-    display: grid;
-    grid-template-columns: 160px 1fr;
-    gap: 1rem;
-}
-
 .ability-scores {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 0.5rem;
 }
 
@@ -15,61 +9,18 @@
     text-align: center;
     padding: 0.5rem;
     background-color: #f8f9fa;
+    border-radius: .25rem;
+    width: 80px;
 }
 
-.ability .label {
+.ability label {
     font-weight: bold;
     font-size: 0.8rem;
+    display:block;
 }
 
-.ability .score {
-    font-size: 1.5rem;
-    font-weight: bold;
-    display: block;
-}
-
-.ability .mod {
-    font-size: 1rem;
-    display: block;
-}
-
-.section {
-    margin-bottom: 1rem;
-}
-
-.section h2 {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
-}
-
-.main {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1rem;
-}
-
-.skills-section {
-    grid-column: 1 / -1;
-}
-
-.skills-table,
-.sheet-table {
+.sheet-table input {
     width: 100%;
-    border-collapse: collapse;
-}
-
-.skills-table th,
-.skills-table td,
-.sheet-table th,
-.sheet-table td {
-    border: 1px solid #000;
-    padding: 0.25rem;
-    font-size: 0.85rem;
-}
-
-.skills-table th,
-.sheet-table th {
-    background-color: #f0f0f0;
 }
 
 .disabled-cell {
