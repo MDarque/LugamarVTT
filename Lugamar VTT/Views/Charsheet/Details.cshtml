@@ -276,12 +276,13 @@
             <div class="card shadow-sm">
                 <div class="card-header">Initiative &amp; Speed</div>
                 <div class="card-body full-border">
-                    <table class="table table-sm table-striped sheet-table mb-3 saving-throws-table">
+                    <table class="table table-sm table-striped sheet-table mb-0 saving-throws-table">
                         <thead>
                             <tr>
                                 <th></th>
                                 <th><b>Total</b></th>
-                                <th><b>Stat</b></th>
+                                <th><b>Stat/Base</b></th>
+                                <th><b>Armor</b></th>
                                 <th><b>Misc</b></th>
                                 <th><b>Temp</b></th>
                             </tr>
@@ -291,23 +292,10 @@
                                 <td>Initiative</td>
                                 <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.Initiative.Total" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.Initiative.AbilityMod" /></td>
+                                <td></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.Initiative.Misc" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.Initiative.Temp" /></td>
                             </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-striped sheet-table mb-0 saving-throws-table">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th><b>Total</b></th>
-                                <th><b>Base</b></th>
-                                <th><b>Armor</b></th>
-                                <th><b>Misc</b></th>
-                                <th><b>Temp</b></th>
-                            </tr>
-                        </thead>
-                        <tbody>
                             <tr>
                                 <td>Speed</td>
                                 <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.Speed.Total" /></td>
