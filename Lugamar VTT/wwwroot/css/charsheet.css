@@ -101,7 +101,7 @@ BODY {
 
 /* Saving throws table */
 .saving-throws-table input {
-    width: 40px;
+    width: 45px;
 }
 /* Total column styling */
 .card .card-body td.total input,

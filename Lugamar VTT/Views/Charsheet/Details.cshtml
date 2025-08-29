@@ -14,7 +14,6 @@
 }
 
 
-<h1 class="mt-4 mb-3">@Model?.Name</h1>
 <a asp-action="Index" class="btn btn-secondary mb-3">&larr; Back to list</a>
 
 <div class="charsheet">
@@ -280,43 +279,43 @@
                         <tbody>
                             <tr>
                                 <td>Initiative</td>
-                                <td class="total text-center">
+                                <td class="total">
                                     <input class="form-control form-control-sm" readonly value="@Model?.Initiative.Total" />
-                                    <label class="form-label small w-100">Total</label>
+                                    <label class="form-label small w-100">&nbsp;</label>
                                 </td>
-                                <td class="text-center">
+                                <td>
                                     <input class="form-control form-control-sm" readonly value="@Model?.Initiative.AbilityMod" />
                                     <label class="form-label small w-100">Stat</label>
                                 </td>
                                 <td></td>
-                                <td class="text-center">
+                                <td>
                                     <input class="form-control form-control-sm" readonly value="@Model?.Initiative.Misc" />
                                     <label class="form-label small w-100">Misc</label>
                                 </td>
-                                <td class="text-center">
+                                <td>
                                     <input class="form-control form-control-sm" readonly value="@Model?.Initiative.Temp" />
                                     <label class="form-label small w-100">Temp</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Speed</td>
-                                <td class="total text-center">
+                                <td class="total">
                                     <input class="form-control form-control-sm" readonly value="@Model?.Speed.Total" />
-                                    <label class="form-label small w-100">Total</label>
+                                    <label class="form-label small w-100">&nbsp;</label>
                                 </td>
-                                <td class="text-center">
+                                <td>
                                     <input class="form-control form-control-sm" readonly value="@Model?.Speed.Base" />
                                     <label class="form-label small w-100">Base</label>
                                 </td>
-                                <td class="text-center">
+                                <td>
                                     <input class="form-control form-control-sm" readonly value="@Model?.Speed.Armor" />
                                     <label class="form-label small w-100">Armor</label>
                                 </td>
-                                <td class="text-center">
+                                <td>
                                     <input class="form-control form-control-sm" readonly value="@Model?.Speed.Misc" />
                                     <label class="form-label small w-100">Misc</label>
                                 </td>
-                                <td class="text-center">
+                                <td>
                                     <input class="form-control form-control-sm" readonly value="@Model?.Speed.Temp" />
                                     <label class="form-label small w-100">Temp</label>
                                 </td>
