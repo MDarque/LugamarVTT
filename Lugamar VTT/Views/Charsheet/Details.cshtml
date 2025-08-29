@@ -7,6 +7,7 @@
 
 @{
     ViewData["Title"] = Model?.Name ?? "Character Details";
+    var jsonOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 }
 
 @section Styles {
@@ -128,7 +129,6 @@
         new { Key = "wisdom", Abbr = "WIS", Full = "Wisdom" },
         new { Key = "charisma", Abbr = "CHA", Full = "Charisma" }
     };
-    var jsonOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 }
                     <table class="table ability-table mb-0">
                         <thead>
@@ -650,7 +650,9 @@
                             </thead>
                             <tbody>
                                 @foreach (var item in group) {
-                                    <tr>
+                                    <tr role="button" data-bs-toggle="modal" data-bs-target="#equipmentModal"
+                                        data-name="@item.Name"
+                                        data-details="@JsonSerializer.Serialize(item.Details, jsonOptions)">
                                         <td><span>@item.Name</span></td>
                                         <td><span>@item.Subtype</span></td>
                                         <td><span>@item.Cost</span></td>
@@ -679,6 +681,17 @@
         </div>
     </div>
     }
+    <div class="modal fade" id="equipmentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="equipmentModalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="equipmentModalBody"></div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="featModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -771,6 +784,22 @@
                 const row = document.createElement('tr');
                 row.innerHTML = `<td>${p.permNum ?? ''}</td><td>${p.bonusType ?? ''}</td><td>${p.name ?? ''}</td>`;
                 body.appendChild(row);
+            });
+        });
+
+        const equipmentModal = document.getElementById('equipmentModal');
+        equipmentModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget;
+            equipmentModal.querySelector('#equipmentModalTitle').textContent = button.getAttribute('data-name') || '';
+            const details = JSON.parse(button.getAttribute('data-details') || '{}');
+            const body = equipmentModal.querySelector('#equipmentModalBody');
+            body.innerHTML = '';
+            Object.entries(details).forEach(([key, value]) => {
+                if (!value || value.trim() === '') return;
+                const p = document.createElement('p');
+                const label = key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                p.innerHTML = `<strong>${label}:</strong> ${value}`;
+                body.appendChild(p);
             });
         });
 

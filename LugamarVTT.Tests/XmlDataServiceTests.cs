@@ -75,6 +75,57 @@ public class XmlDataServiceTests
     }
 
     [Fact]
+    public void GetCharacters_ParsesEquipmentIdentificationAndCostVisibility()
+    {
+        var tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        Directory.CreateDirectory(tempDir);
+        try
+        {
+            File.WriteAllText(Path.Combine(tempDir, "db.xml"), """
+<root>
+  <charsheet>
+    <inventorylist>
+      <id-00001>
+        <name>Longsword</name>
+        <nonid_name>Mysterious Blade</nonid_name>
+        <isidentified>0</isidentified>
+        <cost>50 gp</cost>
+        <cost_visibility>0</cost_visibility>
+        <weight>3 lbs</weight>
+        <gmonly>secret</gmonly>
+      </id-00001>
+      <id-00002>
+        <name>Ring</name>
+        <isidentified>0</isidentified>
+      </id-00002>
+    </inventorylist>
+  </charsheet>
+</root>
+""");
+
+            var env = new TestHostEnvironment(tempDir);
+            var service = new XmlDataService(NullLogger<XmlDataService>.Instance, env);
+
+            var character = service.GetCharacters().Single();
+
+            var first = character.EquipmentDetails[0];
+            Assert.Equal("Mysterious Blade", first.Name);
+            Assert.Equal(string.Empty, first.Cost);
+            Assert.Equal("3 lbs", first.Weight);
+            Assert.DoesNotContain("gmonly", first.Details.Keys);
+            Assert.DoesNotContain("isidentified", first.Details.Keys);
+            Assert.DoesNotContain("cost_visibility", first.Details.Keys);
+
+            var second = character.EquipmentDetails[1];
+            Assert.Equal("Unknown Item", second.Name);
+        }
+        finally
+        {
+            Directory.Delete(tempDir, true);
+        }
+    }
+
+    [Fact]
     public void GetCharacters_ParsesArmorClassDeflectionAndTemp()
     {
         var tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());

@@ -538,22 +538,57 @@ namespace LugamarVTT.Services
                 {
                     if (item.Name == "holder" || item.Name == "public")
                         continue;
-                    var name = GetString(item.Element("name")) ?? string.Empty;
-                    var type = GetString(item.Element("type")) ?? string.Empty;
-                    var subtype = GetString(item.Element("subtype")) ?? string.Empty;
-                    var cost = GetString(item.Element("cost")) ?? string.Empty;
-                    var weight = GetString(item.Element("weight")) ?? string.Empty;
-                    var desc = GetFormatted(item.Element("description"));
 
-                    character.Equipment.Add(name);
+                    // Gather all child elements into a lookup so we can apply
+                    // additional rules (e.g. identification and cost
+                    // visibility) and surface any remaining fields in the UI.
+                    var fields = item.Elements()
+                                     .ToDictionary(e => e.Name.LocalName,
+                                                   e => GetFormatted(e));
+
+                    int isIdentified = fields.TryGetValue("isidentified", out var idVal)
+                        && int.TryParse(idVal, out var idNum) ? idNum : 1;
+                    int costVisibility = fields.TryGetValue("cost_visibility", out var cvVal)
+                        && int.TryParse(cvVal, out var cvNum) ? cvNum : 1;
+
+                    fields.TryGetValue("name", out var rawName);
+                    fields.TryGetValue("nonid_name", out var nonIdName);
+                    var displayName = isIdentified == 1
+                        ? rawName ?? string.Empty
+                        : !string.IsNullOrWhiteSpace(nonIdName)
+                            ? nonIdName
+                            : "Unknown Item";
+
+                    fields.TryGetValue("cost", out var rawCost);
+                    var cost = costVisibility == 0 ? string.Empty : rawCost ?? string.Empty;
+
+                    fields.TryGetValue("type", out var type);
+                    fields.TryGetValue("subtype", out var subtype);
+                    fields.TryGetValue("weight", out var weight);
+                    fields.TryGetValue("description", out var desc);
+
+                    var details = new Dictionary<string, string>();
+                    foreach (var kvp in fields)
+                    {
+                        if (kvp.Key is "name" or "nonid_name" or "isidentified" or
+                            "cost_visibility" or "gmonly")
+                            continue;
+
+                        var value = kvp.Key == "cost" ? cost : kvp.Value;
+                        if (!string.IsNullOrWhiteSpace(value))
+                            details[kvp.Key] = value;
+                    }
+
+                    character.Equipment.Add(displayName);
                     character.EquipmentDetails.Add(new EquipmentItem
                     {
-                        Name = name,
-                        Type = type,
-                        Subtype = subtype,
+                        Name = displayName,
+                        Type = type ?? string.Empty,
+                        Subtype = subtype ?? string.Empty,
                         Cost = cost,
-                        Weight = weight,
-                        Description = desc
+                        Weight = weight ?? string.Empty,
+                        Description = desc ?? string.Empty,
+                        Details = details
                     });
                 }
             }
