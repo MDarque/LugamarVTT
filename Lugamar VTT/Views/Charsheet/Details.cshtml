@@ -508,16 +508,20 @@
                         <thead>
                             <tr>
                                 <th><b>Name</b></th>
-                                <th><b>Source</b></th>
-                                <th><b>Text</b></th>
+                                <th><b>Summary</b></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var ability in Model.SpecialAbilities) {
-                                <tr>
+                                <tr style="cursor:pointer"
+                                    data-bs-toggle="modal" data-bs-target="#abilityModal"
+                                    data-name="@ability.Name"
+                                    data-type="@ability.Type"
+                                    data-level="@ability.Level"
+                                    data-source="@ability.Source"
+                                    data-text='@(ability.Text.Value ?? "")'>
                                     <td><span readonly>@ability.Name</span></td>
-                                    <td><span readonly>@ability.Source</span></td>
-                                    <td><span readonly>@ability.Text</span></td>
+                                    <td><span readonly>@ability.Summary</span></td>
                                 </tr>
                             }
                         </tbody>
@@ -620,6 +624,22 @@
         </div>
     </div>
     }
+    <div class="modal fade" id="abilityModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="abilityModalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Type:</strong> <span id="abilityModalType"></span></p>
+                    <p><strong>Level:</strong> <span id="abilityModalLevel"></span></p>
+                    <p><strong>Source:</strong> <span id="abilityModalSource"></span></p>
+                    <div id="abilityModalText"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="permModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -657,6 +677,16 @@
                 row.innerHTML = `<td>${p.permNum ?? ''}</td><td>${p.bonusType ?? ''}</td><td>${p.name ?? ''}</td>`;
                 body.appendChild(row);
             });
+        });
+
+        const abilityModal = document.getElementById('abilityModal');
+        abilityModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget;
+            abilityModal.querySelector('#abilityModalTitle').textContent = button.getAttribute('data-name') || '';
+            abilityModal.querySelector('#abilityModalType').textContent = button.getAttribute('data-type') || '';
+            abilityModal.querySelector('#abilityModalLevel').textContent = button.getAttribute('data-level') || '';
+            abilityModal.querySelector('#abilityModalSource').textContent = button.getAttribute('data-source') || '';
+            abilityModal.querySelector('#abilityModalText').innerHTML = button.getAttribute('data-text') || '';
         });
     </script>
 }

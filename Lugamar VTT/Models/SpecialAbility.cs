@@ -10,6 +10,9 @@ namespace LugamarVTT.Models
     {
         public string Name { get; set; } = string.Empty;
         public string Source { get; set; } = string.Empty;
+        public string Type { get; set; } = string.Empty;
+        public int Level { get; set; }
+        public string Summary { get; set; } = string.Empty;
         /// <summary>Formatted description of the ability.</summary>
         public MarkupString Text { get; set; } = new MarkupString();
     }
