@@ -277,32 +277,49 @@
                 <div class="card-header">Initiative &amp; Speed</div>
                 <div class="card-body full-border">
                     <table class="table table-sm table-striped sheet-table mb-0 saving-throws-table">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th><b>Total</b></th>
-                                <th><b>Stat/Base</b></th>
-                                <th><b>Armor</b></th>
-                                <th><b>Misc</b></th>
-                                <th><b>Temp</b></th>
-                            </tr>
-                        </thead>
                         <tbody>
                             <tr>
                                 <td>Initiative</td>
-                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.Initiative.Total" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Initiative.AbilityMod" /></td>
+                                <td class="total text-center">
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Initiative.Total" />
+                                    <label class="form-label small w-100">Total</label>
+                                </td>
+                                <td class="text-center">
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Initiative.AbilityMod" />
+                                    <label class="form-label small w-100">Stat</label>
+                                </td>
                                 <td></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Initiative.Misc" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Initiative.Temp" /></td>
+                                <td class="text-center">
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Initiative.Misc" />
+                                    <label class="form-label small w-100">Misc</label>
+                                </td>
+                                <td class="text-center">
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Initiative.Temp" />
+                                    <label class="form-label small w-100">Temp</label>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Speed</td>
-                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.Speed.Total" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Speed.Base" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Speed.Armor" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Speed.Misc" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Speed.Temp" /></td>
+                                <td class="total text-center">
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Speed.Total" />
+                                    <label class="form-label small w-100">Total</label>
+                                </td>
+                                <td class="text-center">
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Speed.Base" />
+                                    <label class="form-label small w-100">Base</label>
+                                </td>
+                                <td class="text-center">
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Speed.Armor" />
+                                    <label class="form-label small w-100">Armor</label>
+                                </td>
+                                <td class="text-center">
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Speed.Misc" />
+                                    <label class="form-label small w-100">Misc</label>
+                                </td>
+                                <td class="text-center">
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Speed.Temp" />
+                                    <label class="form-label small w-100">Temp</label>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
