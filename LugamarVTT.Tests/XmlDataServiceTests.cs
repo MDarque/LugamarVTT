@@ -324,4 +324,122 @@ public class XmlDataServiceTests
             Directory.Delete(tempDir, true);
         }
     }
+
+    [Fact]
+    public void GetCharacters_PreservesHtmlInSpecialAbilityText()
+    {
+        var tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        Directory.CreateDirectory(tempDir);
+        try
+        {
+            File.WriteAllText(Path.Combine(tempDir, "db.xml"), """
+<root>
+  <charsheet>
+    <specialabilitylist>
+      <id-00001>
+        <name>Shiny Power</name>
+        <source>Book</source>
+        <type>Ability</type>
+        <text>Gives <b>bold</b> strength.</text>
+      </id-00001>
+    </specialabilitylist>
+  </charsheet>
+</root>
+""");
+
+            var env = new TestHostEnvironment(tempDir);
+            var service = new XmlDataService(NullLogger<XmlDataService>.Instance, env);
+
+            var character = service.GetCharacters().Single();
+
+            var ability = Assert.Single(character.SpecialAbilities);
+            Assert.Contains("<b>bold</b>", ability.Text.Value);
+            Assert.Equal("Gives bold strength.", ability.Summary);
+        }
+        finally
+        {
+            Directory.Delete(tempDir, true);
+        }
+    }
+
+    [Fact]
+    public void GetCharacters_PreservesHtmlInTraitText()
+    {
+        var tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        Directory.CreateDirectory(tempDir);
+        try
+        {
+            File.WriteAllText(Path.Combine(tempDir, "db.xml"), """
+<root>
+  <charsheet>
+    <specialabilitylist>
+      <id-00001>
+        <name>Darkvision</name>
+        <type>Trait - Bestiary</type>
+        <text>Can see in <i>darkness</i> easily.</text>
+      </id-00001>
+    </specialabilitylist>
+  </charsheet>
+</root>
+""");
+
+            var env = new TestHostEnvironment(tempDir);
+            var service = new XmlDataService(NullLogger<XmlDataService>.Instance, env);
+
+            var character = service.GetCharacters().Single();
+
+            var trait = Assert.Single(character.Traits);
+            Assert.Contains("<i>darkness</i>", trait.Text.Value);
+            Assert.Equal("Can see in darkness easily.", trait.Summary);
+            Assert.Equal("Bestiary", trait.Source);
+        }
+        finally
+        {
+            Directory.Delete(tempDir, true);
+        }
+    }
+
+    [Fact]
+    public void GetCharacters_PreservesHtmlInFeatFields()
+    {
+        var tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        Directory.CreateDirectory(tempDir);
+        try
+        {
+            File.WriteAllText(Path.Combine(tempDir, "db.xml"), """
+<root>
+  <charsheet>
+    <featlist>
+      <id-00001>
+        <name>Alertness</name>
+        <summary>Gain bonus on Perception.</summary>
+        <type>General</type>
+        <prerequisites>Alertness prereq</prerequisites>
+        <benefit>Gain a <b>+2</b> bonus on Perception checks.</benefit>
+        <normal>Normally <i>no bonus</i>.</normal>
+        <special>Some <u>special</u> effect.</special>
+      </id-00001>
+    </featlist>
+  </charsheet>
+</root>
+""");
+
+            var env = new TestHostEnvironment(tempDir);
+            var service = new XmlDataService(NullLogger<XmlDataService>.Instance, env);
+
+            var character = service.GetCharacters().Single();
+
+            var feat = Assert.Single(character.FeatDetails);
+            Assert.Contains("<b>+2</b>", feat.Benefit);
+            Assert.Contains("<i>no bonus</i>", feat.Normal);
+            Assert.Contains("<u>special</u>", feat.Special);
+            Assert.Equal("Gain bonus on Perception.", feat.Summary);
+            Assert.Equal("General", feat.Type);
+            Assert.Equal("Alertness prereq", feat.Prerequisites);
+        }
+        finally
+        {
+            Directory.Delete(tempDir, true);
+        }
+    }
 }

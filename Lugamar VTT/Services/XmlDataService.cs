@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace LugamarVTT.Services
@@ -433,7 +434,16 @@ namespace LugamarVTT.Services
                     var name = GetString(ability.Element("name")) ?? string.Empty;
                     var source = GetString(ability.Element("source")) ?? string.Empty;
                     var type = GetString(ability.Element("type")) ?? string.Empty;
-                    var text = GetString(ability.Element("text"));
+                    var level = GetInt(ability.Element("level"));
+                    var text = GetFormatted(ability.Element("text"));
+                    var summary = string.Empty;
+                    if (!string.IsNullOrEmpty(text))
+                    {
+                        var plainText = Regex.Replace(text, "<.*?>", string.Empty);
+                        var first = plainText.Split('.', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
+                        if (!string.IsNullOrWhiteSpace(first))
+                            summary = first.Trim() + ".";
+                    }
 
                     if (!string.IsNullOrEmpty(type) && type.Contains("Trait", System.StringComparison.OrdinalIgnoreCase))
                     {
@@ -442,6 +452,7 @@ namespace LugamarVTT.Services
                         {
                             Name = name,
                             Source = traitSource,
+                            Summary = summary,
                             Text = (MarkupString)text
                         });
                     }
@@ -451,6 +462,9 @@ namespace LugamarVTT.Services
                         {
                             Name = name,
                             Source = source,
+                            Type = type,
+                            Level = level,
+                            Summary = summary,
                             Text = (MarkupString)text
                         });
                     }
