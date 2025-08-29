@@ -166,7 +166,7 @@
             <div class="card shadow-sm">
                 <div class="card-header">Saving Throws</div>
                 <div class="card-body">
-                    <table class="table table-sm table-striped sheet-table mb-0">
+                    <table class="table table-sm table-striped sheet-table mb-0 saving-throws-table">
                         <thead>
                             <tr>
                                 <th></th>
@@ -180,7 +180,7 @@
                         <tbody>
                             <tr>
                                 <td>Fortitude</td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Fortitude.Total" /></td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.Fortitude.Total" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.Fortitude.Base" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.Fortitude.AbilityMod" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.Fortitude.Misc" /></td>
@@ -188,7 +188,7 @@
                             </tr>
                             <tr>
                                 <td>Reflex</td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Reflex.Total" /></td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.Reflex.Total" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.Reflex.Base" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.Reflex.AbilityMod" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.Reflex.Misc" /></td>
@@ -196,7 +196,7 @@
                             </tr>
                             <tr>
                                 <td>Will</td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Will.Total" /></td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.Will.Total" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.Will.Base" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.Will.AbilityMod" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.Will.Misc" /></td>
