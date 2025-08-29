@@ -14,7 +14,6 @@
 }
 
 
-<h1 class="mt-4 mb-3">@Model?.Name</h1>
 <a asp-action="Index" class="btn btn-secondary mb-3">&larr; Back to list</a>
 
 <div class="charsheet">
@@ -113,10 +112,10 @@
         </div>
     </div>
 
-    <!-- Row 2: Ability Scores & Saving Throws; Hit Points, Initiative & Speed -->
+    <!-- Row 2: Ability Scores & Hit Points -->
     <div class="row mb-4">
         <div class="col-md-6 mb-4 mb-md-0">
-            <div class="card shadow-sm mb-4">
+            <div class="card shadow-sm">
                 <div class="card-header">Ability Scores</div>
                 <div class="card-body full-border">
 @{
@@ -171,52 +170,9 @@
                     </table>
                 </div>
             </div>
-            <div class="card shadow-sm">
-                <div class="card-header">Saving Throws</div>
-                <div class="card-body full-border">
-                    <table class="table table-sm table-striped sheet-table mb-0 saving-throws-table">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th><b>Total</b></th>
-                                <th><b>Class</b></th>
-                                <th><b>Stat</b></th>
-                                <th><b>Misc</b></th>
-                                <th><b>Temp</b></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Fortitude</td>
-                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.Fortitude.Total" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Fortitude.Base" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Fortitude.AbilityMod" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Fortitude.Misc" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Fortitude.Temp" /></td>
-                            </tr>
-                            <tr>
-                                <td>Reflex</td>
-                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.Reflex.Total" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Reflex.Base" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Reflex.AbilityMod" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Reflex.Misc" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Reflex.Temp" /></td>
-                            </tr>
-                            <tr>
-                                <td>Will</td>
-                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.Will.Total" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Will.Base" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Will.AbilityMod" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Will.Misc" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.Will.Temp" /></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
         <div class="col-md-6">
-            <div class="card shadow-sm mb-4">
+            <div class="card shadow-sm">
                 <div class="card-header">Hit Points</div>
                 <div class="card-body">
                     <div class="row mb-3 full-border">
@@ -265,23 +221,113 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Row 3: Saving Throws & Initiative & Speed -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="card shadow-sm">
+                <div class="card-header">Saving Throws</div>
+                <div class="card-body full-border">
+                    <table class="table table-sm table-striped sheet-table mb-0 saving-throws-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th><b>Total</b></th>
+                                <th><b>Class</b></th>
+                                <th><b>Stat</b></th>
+                                <th><b>Misc</b></th>
+                                <th><b>Temp</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Fortitude</td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.Fortitude.Total" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.Fortitude.Base" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.Fortitude.AbilityMod" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.Fortitude.Misc" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.Fortitude.Temp" /></td>
+                            </tr>
+                            <tr>
+                                <td>Reflex</td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.Reflex.Total" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.Reflex.Base" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.Reflex.AbilityMod" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.Reflex.Misc" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.Reflex.Temp" /></td>
+                            </tr>
+                            <tr>
+                                <td>Will</td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.Will.Total" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.Will.Base" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.Will.AbilityMod" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.Will.Misc" /></td>
+                                <td><input class="form-control form-control-sm" readonly value="@Model?.Will.Temp" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
             <div class="card shadow-sm">
                 <div class="card-header">Initiative &amp; Speed</div>
                 <div class="card-body full-border">
-                    <div class="mb-3">
-                        <label class="form-label">Initiative</label>
-                        <input class="form-control" readonly value="@Model?.Initiative" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Speed</label>
-                        <input class="form-control" readonly value="@Model?.Speed" />
-                    </div>
+                    <table class="table table-sm table-striped sheet-table mb-0 saving-throws-table">
+                        <tbody>
+                            <tr>
+                                <td>Initiative</td>
+                                <td class="total">
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Initiative.Total" />
+                                    <label class="form-label small w-100">&nbsp;</label>
+                                </td>
+                                <td>
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Initiative.AbilityMod" />
+                                    <label class="form-label small w-100">Stat</label>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Initiative.Misc" />
+                                    <label class="form-label small w-100">Misc</label>
+                                </td>
+                                <td>
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Initiative.Temp" />
+                                    <label class="form-label small w-100">Temp</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Speed</td>
+                                <td class="total">
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Speed.Total" />
+                                    <label class="form-label small w-100">&nbsp;</label>
+                                </td>
+                                <td>
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Speed.Base" />
+                                    <label class="form-label small w-100">Base</label>
+                                </td>
+                                <td>
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Speed.Armor" />
+                                    <label class="form-label small w-100">Armor</label>
+                                </td>
+                                <td>
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Speed.Misc" />
+                                    <label class="form-label small w-100">Misc</label>
+                                </td>
+                                <td>
+                                    <input class="form-control form-control-sm" readonly value="@Model?.Speed.Temp" />
+                                    <label class="form-label small w-100">Temp</label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Row 3: Armor Class -->
+    <!-- Row 4: Armor Class -->
     <div class="row mb-4">
         <div class="col">
             <div class="card shadow-sm">
@@ -374,7 +420,7 @@
         </div>
     </div>
 
-    <!-- Row 4: Attack Bonus -->
+    <!-- Row 5: Attack Bonus -->
     <div class="row mb-4">
         <div class="col">
             <div class="card shadow-sm">
@@ -435,7 +481,7 @@
         </div>
     </div>
 
-    <!-- Row 5: Skills -->
+    <!-- Row 6: Skills -->
     @if (Model != null && Model.SkillDetails.Any()) {
     <div class="row mb-4">
         <div class="col">
@@ -472,7 +518,7 @@
     </div>
     }
 
-    <!-- Row 6: Feats; Special Abilities -->
+    <!-- Row 7: Feats; Special Abilities -->
     <div class="row mb-4">
         @if (Model != null && Model.FeatDetails.Any()) {
         <div class="col-md-6 mb-4 mb-md-0">
@@ -539,7 +585,7 @@
         }
     </div>
 
-    <!-- Row 7: Proficiencies; Traits -->
+    <!-- Row 8: Proficiencies; Traits -->
     <div class="row mb-4">
         @if (Model != null && Model.Proficiencies.Any()) {
         <div class="col-md-6 mb-4 mb-md-0">
@@ -584,7 +630,7 @@
         }
     </div>
 
-    <!-- Row 8: Equipment -->
+    <!-- Row 9: Equipment -->
     @if (Model != null && Model.EquipmentDetails.Any()) {
     <div class="row mb-4">
         <div class="col">
@@ -620,7 +666,7 @@
     </div>
     }
 
-    <!-- Row 9: Spells -->
+    <!-- Row 10: Spells -->
     @if (Model != null && Model.Spells.Any()) {
     <div class="row mb-4">
         <div class="col">

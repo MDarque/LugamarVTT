@@ -60,8 +60,8 @@ namespace LugamarVTT.Models
         public SavingThrowDetail Fortitude { get; set; } = new();
         public SavingThrowDetail Reflex { get; set; } = new();
         public SavingThrowDetail Will { get; set; } = new();
-        public int Initiative { get; set; }
-        public int Speed { get; set; }
+        public InitiativeDetail Initiative { get; set; } = new();
+        public SpeedDetail Speed { get; set; } = new();
         public int BaseAttackBonus { get; set; }
         public AttackBonusDetail MeleeAttackBonus { get; set; } = new();
         public AttackBonusDetail RangedAttackBonus { get; set; } = new();

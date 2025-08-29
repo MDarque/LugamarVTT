@@ -149,6 +149,21 @@ namespace LugamarVTT.Services
                 Temp = GetInt(node?.Element("temporary")),
                 Total = GetInt(node?.Element("total"))
             };
+            static InitiativeDetail ParseInitiative(XElement? node) => new InitiativeDetail
+            {
+                AbilityMod = GetInt(node?.Element("abilitymod")),
+                Misc = GetInt(node?.Element("misc")),
+                Temp = GetInt(node?.Element("temporary")),
+                Total = GetInt(node?.Element("total"))
+            };
+            static SpeedDetail ParseSpeed(XElement? node) => new SpeedDetail
+            {
+                Base = GetInt(node?.Element("base")),
+                Armor = GetInt(node?.Element("armor")),
+                Misc = GetInt(node?.Element("misc")),
+                Temp = GetInt(node?.Element("temporary")),
+                Total = GetInt(node?.Element("total"))
+            };
 
             // Ability scores are nested within <abilities>/<ability>/<score>.
             var abilities = charNode.Element("abilities");
@@ -210,8 +225,8 @@ namespace LugamarVTT.Services
                 Fortitude = ParseSave(savesNode?.Element("fortitude")),
                 Reflex = ParseSave(savesNode?.Element("reflex")),
                 Will = ParseSave(savesNode?.Element("will")),
-                Initiative = GetInt(charNode.Element("initiative")?.Element("total")),
-                Speed = GetInt(charNode.Element("speed")?.Element("total")),
+                Initiative = ParseInitiative(charNode.Element("initiative")),
+                Speed = ParseSpeed(charNode.Element("speed")),
                 BaseAttackBonus = baseAttack,
                 SkillPointsSpent = GetInt(charNode.Element("skillpoints")?.Element("spent"))
             };
