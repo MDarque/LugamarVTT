@@ -24,6 +24,7 @@ BODY {
 .card .card-body .full-border input,
 .card .card-body input.full-border {
     border: 1px solid #ced4da;
+    max-width: 40px;
 }
 
 .card .card-body .row {
@@ -73,8 +74,8 @@ BODY {
 }
 
 .ability-table input {
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 40px;
+    height: 40px;
     padding: 0;
     text-align: center;
     margin: 0 auto;
@@ -93,7 +94,8 @@ BODY {
 .saving-throws-table input {
     width: 40px;
 }
-
-.saving-throws-table td.total input {
+/* Total column styling */
+.card .card-body td.total input,
+.card .card-body input.total {
     border-color: #000;
 }

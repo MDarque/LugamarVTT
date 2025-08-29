@@ -218,7 +218,7 @@
                         </div>
                         <div class="col">
                             <label class="form-label">Total</label>
-                            <input class="form-control" readonly value="@Model?.HitPoints" />
+                            <input class="form-control total" readonly value="@Model?.HitPoints" />
                         </div>
                         <div class="col">
                             <label class="form-label">Temp</label>
@@ -307,7 +307,7 @@
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.Misc" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.Deflection" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.Temp" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.Total" /></td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.Total" /></td>
                             </tr>
                             <tr>
                                 <td>Touch</td>
@@ -320,7 +320,7 @@
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.Misc" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.Deflection" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.Temp" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.Total" /></td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.Total" /></td>
                             </tr>
                             <tr>
                                 <td>Flat-Footed</td>
@@ -333,7 +333,7 @@
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.Misc" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.Deflection" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.Temp" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.Total" /></td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.Total" /></td>
                             </tr>
                         </tbody>
                     </table>
@@ -357,7 +357,7 @@
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.DexBonus" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.SizeBonus" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.Misc" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.Total" /></td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.Total" /></td>
                             </tr>
                         </tbody>
                     </table>
@@ -398,7 +398,7 @@
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.SizeBonus" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.Misc" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.Temp" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.Total" /></td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.Total" /></td>
                             </tr>
                             <tr>
                                 <td>Ranged Attack</td>
@@ -408,7 +408,7 @@
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.SizeBonus" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.Misc" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.Temp" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.Total" /></td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.Total" /></td>
                             </tr>
                             <tr>
                                 <td>CMB</td>
@@ -418,7 +418,7 @@
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.SizeBonus" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.Misc" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.Temp" /></td>
-                                <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.Total" /></td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.Total" /></td>
                             </tr>
                         </tbody>
                     </table>
@@ -448,12 +448,12 @@
                         <tbody>
                             @foreach (var skill in Model.SkillDetails) {
                                 <tr>
-                                    <td><input class="form-control form-control-sm" readonly value="@skill.Name" /></td>
-                                    <td><input class="form-control form-control-sm" readonly value="@skill.Ability" /></td>
+                                    <td><label class="form-label">@skill.Name</label></td>
+                                    <td><label class="form-label">@skill.Ability</label></td>
                                     <td><input class="form-control form-control-sm" readonly value="@skill.AbilityBonus" /></td>
                                     <td><input class="form-control form-control-sm" readonly value="@skill.Ranks" /></td>
                                     <td><input class="form-control form-control-sm" readonly value="@skill.Misc" /></td>
-                                    <td><input class="form-control form-control-sm" readonly value="@skill.Total" /></td>
+                                    <td class="total"><input class="form-control form-control-sm" readonly value="@skill.Total" /></td>
                                 </tr>
                             }
                         </tbody>
