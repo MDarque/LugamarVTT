@@ -555,16 +555,18 @@
                         <thead>
                             <tr>
                                 <th><b>Name</b></th>
-                                <th><b>Source</b></th>
-                                <th><b>Text</b></th>
+                                <th><b>Summary</b></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var trait in Model.Traits) {
-                                <tr>
+                                <tr style="cursor:pointer"
+                                    data-bs-toggle="modal" data-bs-target="#traitModal"
+                                    data-name="@trait.Name"
+                                    data-source="@trait.Source"
+                                    data-text='@(trait.Text.Value ?? "")'>
                                     <td><span readonly>@trait.Name</span></td>
-                                    <td><span readonly>@trait.Source</span></td>
-                                    <td><span readonly>@Html.Raw(trait.Text).ToString().Replace('\n',' ')</span></td>
+                                    <td><span readonly>@trait.Summary</span></td>
                                 </tr>
                             }
                         </tbody>
@@ -640,6 +642,20 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="traitModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="traitModalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Source:</strong> <span id="traitModalSource"></span></p>
+                    <div id="traitModalText"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="permModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -677,6 +693,14 @@
                 row.innerHTML = `<td>${p.permNum ?? ''}</td><td>${p.bonusType ?? ''}</td><td>${p.name ?? ''}</td>`;
                 body.appendChild(row);
             });
+        });
+
+        const traitModal = document.getElementById('traitModal');
+        traitModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget;
+            traitModal.querySelector('#traitModalTitle').textContent = button.getAttribute('data-name') || '';
+            traitModal.querySelector('#traitModalSource').textContent = button.getAttribute('data-source') || '';
+            traitModal.querySelector('#traitModalText').innerHTML = button.getAttribute('data-text') || '';
         });
 
         const abilityModal = document.getElementById('abilityModal');

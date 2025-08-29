@@ -452,6 +452,7 @@ namespace LugamarVTT.Services
                         {
                             Name = name,
                             Source = traitSource,
+                            Summary = summary,
                             Text = (MarkupString)text
                         });
                     }
