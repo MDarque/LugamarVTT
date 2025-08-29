@@ -1,4 +1,5 @@
 using LugamarVTT.Models;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -384,6 +385,8 @@ namespace LugamarVTT.Services
             {
                 foreach (var skill in skillList.Elements())
                 {
+                    if (skill.Name == "holder" || skill.Name == "public")
+                        continue;
                     var label = GetString(skill.Element("label")) ?? string.Empty;
                     var sub = GetString(skill.Element("sublabel"));
                     var ranks = GetInt(skill.Element("ranks"));
@@ -425,10 +428,12 @@ namespace LugamarVTT.Services
             {
                 foreach (var ability in specialList.Elements())
                 {
+                    if (ability.Name == "holder" || ability.Name == "public")
+                        continue;
                     var name = GetString(ability.Element("name")) ?? string.Empty;
                     var source = GetString(ability.Element("source")) ?? string.Empty;
                     var type = GetString(ability.Element("type")) ?? string.Empty;
-                    var text = GetFormatted(ability.Element("text"));
+                    var text = GetString(ability.Element("text"));
 
                     if (!string.IsNullOrEmpty(type) && type.Contains("Trait", System.StringComparison.OrdinalIgnoreCase))
                     {
@@ -437,7 +442,7 @@ namespace LugamarVTT.Services
                         {
                             Name = name,
                             Source = traitSource,
-                            Text = text
+                            Text = (MarkupString)text
                         });
                     }
                     else
@@ -446,7 +451,7 @@ namespace LugamarVTT.Services
                         {
                             Name = name,
                             Source = source,
-                            Text = text
+                            Text = (MarkupString)text
                         });
                     }
                 }
@@ -458,6 +463,8 @@ namespace LugamarVTT.Services
             {
                 foreach (var feat in featList.Elements())
                 {
+                    if (feat.Name == "holder" || feat.Name == "public")
+                        continue;
                     var name = GetString(feat.Element("name")) ?? string.Empty;
                     var summary = GetString(feat.Element("summary")) ?? string.Empty;
                     var type = GetString(feat.Element("type")) ?? string.Empty;
@@ -500,6 +507,8 @@ namespace LugamarVTT.Services
             {
                 foreach (var item in inventory.Elements())
                 {
+                    if (item.Name == "holder" || item.Name == "public")
+                        continue;
                     var name = GetString(item.Element("name")) ?? string.Empty;
                     var type = GetString(item.Element("type")) ?? string.Empty;
                     var subtype = GetString(item.Element("subtype")) ?? string.Empty;

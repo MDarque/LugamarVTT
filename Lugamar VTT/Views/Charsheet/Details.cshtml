@@ -3,6 +3,7 @@
 @using System.Linq
 @using System.Text.Json
 @using LugamarVTT.Models
+@using Microsoft.AspNetCore.Components
 
 @{
     ViewData["Title"] = Model?.Name ?? "Character Details";
@@ -64,24 +65,31 @@
                             <label class="form-label">Race</label>
                             <input class="form-control" readonly value="@Model?.Race" />
                         </div>
-                        <div class="col-md-4 mb-3 mb-md-0">
-                            <label class="form-label">XP</label>
-                            <input class="form-control" readonly value="@Model?.Experience" />
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow-sm mt-2">
+                <div class="card-header">Class</div>
+                <div class="card-body">
+                    <div class="row mb-3 justify-content-center">
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <label class="form-label text-center">XP</label>
+                            <input class="form-control full-border-lg" readonly value="@Model?.Experience" />
                         </div>
-                        <div class="col-md-4">
-                            <label class="form-label">XP Needed</label>
-                            <input class="form-control" readonly value="@Model?.ExperienceNeeded" />
+                        <div class="col-md-3">
+                            <label class="form-label text-center">XP Needed</label>
+                            <input class="form-control full-border-lg" readonly value="@Model?.ExperienceNeeded" />
                         </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-sm mb-0">
                             <thead>
                                 <tr>
-                                    <th>Class</th>
-                                    <th>Level</th>
-                                    <th>Favored</th>
-                                    <th>Skill Ranks</th>
-                                    <th>Skill Ranks Used</th>
+                                    <th><b>Class</b></th>
+                                    <th><b>Level</b></th>
+                                    <th class="text-center"><b>Favored</b></th>
+                                    <th><b>Skill Ranks</b></th>
+                                    <th><b>Skill Ranks Used</b></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -127,11 +135,11 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Score</th>
-                                <th>Mod</th>
-                                <th>Base</th>
-                                <th>Dmg</th>
-                                <th>Perm</th>
+                                <th><b>Score</b></th>
+                                <th><b>Mod</b></th>
+                                <th><b>Base</b></th>
+                                <th><b>Dmg</b></th>
+                                <th><b>Perm</b></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -170,11 +178,11 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Total</th>
-                                <th>Class</th>
-                                <th>Stat</th>
-                                <th>Misc</th>
-                                <th>Temp</th>
+                                <th><b>Total</b></th>
+                                <th><b>Class</b></th>
+                                <th><b>Stat</b></th>
+                                <th><b>Misc</b></th>
+                                <th><b>Temp</b></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -211,7 +219,7 @@
             <div class="card shadow-sm mb-4">
                 <div class="card-header">Hit Points</div>
                 <div class="card-body">
-                    <div class="row mb-3 full-border">
+                    <div class="row mb-3 full-border text-center">
                         <div class="col">
                             <label class="form-label">Current</label>
                             <input class="form-control" readonly value="@Model?.CurrentHitPoints" />
@@ -251,7 +259,7 @@
                         <label class="form-label">Immunities</label>
                         <input class="form-control" readonly value="@Model?.Immunities" />
                     </div>
-                    <div>
+                    <div class="mb-3">
                         <label class="form-label">Other Special Qualities</label>
                         <input class="form-control" readonly value="@Model?.SpecialQualities" />
                     </div>
@@ -283,21 +291,22 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>DEX Modifier</th>
-                                <th>Size Modifier</th>
-                                <th>Armor Bonus</th>
-                                <th>Shield Bonus</th>
-                                <th>Natural Armor</th>
-                                <th>Dodge</th>
-                                <th>Misc</th>
-                                <th>Deflection</th>
-                                <th>Temp</th>
-                                <th>Total</th>
+                                <th><b>Total</b></th>
+                                <th><b>DEX Modifier</b></th>
+                                <th><b>Size Modifier</b></th>
+                                <th><b>Armor Bonus</b></th>
+                                <th><b>Shield Bonus</b></th>
+                                <th><b>Natural Armor</b></th>
+                                <th><b>Dodge</b></th>
+                                <th><b>Misc</b></th>
+                                <th><b>Deflection</b></th>
+                                <th><b>Temp</b></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>Armor Class</td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.Total" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.DexModifier" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.SizeModifier" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.ArmorBonus" /></td>
@@ -307,10 +316,10 @@
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.Misc" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.Deflection" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.Temp" /></td>
-                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.ArmorClassBreakdown.Total" /></td>
                             </tr>
                             <tr>
                                 <td>Touch</td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.Total" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.DexModifier" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.SizeModifier" /></td>
                                 <td class="disabled-cell"><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.ArmorBonus" /></td>
@@ -320,10 +329,10 @@
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.Misc" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.Deflection" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.Temp" /></td>
-                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.TouchArmorClassBreakdown.Total" /></td>
                             </tr>
                             <tr>
                                 <td>Flat-Footed</td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.Total" /></td>
                                 <td class="disabled-cell"><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.DexModifier" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.SizeModifier" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.ArmorBonus" /></td>
@@ -333,7 +342,6 @@
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.Misc" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.Deflection" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.Temp" /></td>
-                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.FlatFootedArmorClassBreakdown.Total" /></td>
                             </tr>
                         </tbody>
                     </table>
@@ -341,23 +349,23 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Base Attack Bonus</th>
-                                <th>STR Bonus</th>
-                                <th>DEX Bonus</th>
-                                <th>Size Bonus</th>
-                                <th>Misc</th>
-                                <th>Total</th>
+                                <th><b>Total</b></th>
+                                <th><b>Base Attack Bonus</b></th>
+                                <th><b>STR Bonus</b></th>
+                                <th><b>DEX Bonus</b></th>
+                                <th><b>Size Bonus</b></th>
+                                <th><b>Misc</b></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>CMD</td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.Total" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.BaseAttackBonus" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.StrBonus" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.DexBonus" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.SizeBonus" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.Misc" /></td>
-                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverDefense.Total" /></td>
                             </tr>
                         </tbody>
                     </table>
@@ -376,49 +384,49 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Base Attack Bonus</th>
-                                <th>STR Bonus</th>
-                                <th>DEX Bonus</th>
-                                <th>Size Bonus</th>
-                                <th>Misc</th>
-                                <th>Temp</th>
-                                <th>Total</th>
+                                <th><b>Total</b></th>
+                                <th><b>Base Attack Bonus</b></th>
+                                <th><b>STR Bonus</b></th>
+                                <th><b>DEX Bonus</b></th>
+                                <th><b>Size Bonus</b></th>
+                                <th><b>Misc</b></th>
+                                <th><b>Temp</b></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>Base Attack Bonus</td>
-                                <td colspan="7"><input class="form-control form-control-sm" readonly value="@Model?.BaseAttackBonus" /></td>
+                                <td colspan="7" class="total"><input class="form-control form-control-sm" readonly value="@Model?.BaseAttackBonus" /></td>
                             </tr>
                             <tr>
                                 <td>Melee Attack</td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.Total" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.BaseAttackBonus" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.AbilityMod" /></td>
-                                <td class="disabled-cell"><input class="form-control form-control-sm" readonly /></td>
+                                <td><input class="form-control form-control-sm disabled-cell" readonly /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.SizeBonus" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.Misc" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.Temp" /></td>
-                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.MeleeAttackBonus.Total" /></td>
                             </tr>
                             <tr>
                                 <td>Ranged Attack</td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.Total" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.BaseAttackBonus" /></td>
-                                <td class="disabled-cell"><input class="form-control form-control-sm" readonly /></td>
+                                <td><input class="form-control form-control-sm disabled-cell" readonly /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.AbilityMod" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.SizeBonus" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.Misc" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.Temp" /></td>
-                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.RangedAttackBonus.Total" /></td>
                             </tr>
                             <tr>
                                 <td>CMB</td>
+                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.Total" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.BaseAttackBonus" /></td>
-                                <td class="disabled-cell"><input class="form-control form-control-sm" readonly /></td>
+                                <td><input class="form-control form-control-sm disabled-cell" readonly /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.AbilityMod" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.SizeBonus" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.Misc" /></td>
                                 <td><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.Temp" /></td>
-                                <td class="total"><input class="form-control form-control-sm" readonly value="@Model?.CombatManeuverBonus.Total" /></td>
                             </tr>
                         </tbody>
                     </table>
@@ -437,12 +445,12 @@
                     <table class="table table-sm table-striped sheet-table">
                         <thead>
                             <tr>
-                                <th>Skill</th>
-                                <th>Ability</th>
-                                <th>Ability Bonus</th>
-                                <th>Ranks</th>
-                                <th>Misc</th>
-                                <th>Total</th>
+                                <th><b>Skill</b></th>
+                                <th><b>Ability</b></th>
+                                <th><b>Ranks</b></th>
+                                <th><b>Ability <br />Bonus</b></th>
+                                <th><b>Misc</b></th>
+                                <th><b>Total</b></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -450,8 +458,8 @@
                                 <tr>
                                     <td><label class="form-label">@skill.Name</label></td>
                                     <td><label class="form-label">@skill.Ability</label></td>
-                                    <td><input class="form-control form-control-sm" readonly value="@skill.AbilityBonus" /></td>
                                     <td><input class="form-control form-control-sm" readonly value="@skill.Ranks" /></td>
+                                    <td class="text-center"><input class="form-control form-control-sm" readonly value="@skill.AbilityBonus" /></td>
                                     <td><input class="form-control form-control-sm" readonly value="@skill.Misc" /></td>
                                     <td class="total"><input class="form-control form-control-sm" readonly value="@skill.Total" /></td>
                                 </tr>
@@ -474,15 +482,15 @@
                     <table class="table table-sm table-striped sheet-table">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Summary</th>
+                                <th><b>Name</b></th>
+                                <th><b>Summary</b></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var feat in Model.FeatDetails) {
                                 <tr>
-                                    <td><input class="form-control form-control-sm" readonly value="@feat.Name" /></td>
-                                    <td><input class="form-control form-control-sm" readonly value="@feat.Summary" /></td>
+                                    <td><span readonly>@feat.Name</span></td>
+                                    <td><span readonly>@feat.Summary</span></td>
                                 </tr>
                             }
                         </tbody>
@@ -499,17 +507,17 @@
                     <table class="table table-sm table-striped sheet-table">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Source</th>
-                                <th>Text</th>
+                                <th><b>Name</b></th>
+                                <th><b>Source</b></th>
+                                <th><b>Text</b></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var ability in Model.SpecialAbilities) {
                                 <tr>
-                                    <td><input class="form-control form-control-sm" readonly value="@ability.Name" /></td>
-                                    <td><input class="form-control form-control-sm" readonly value="@ability.Source" /></td>
-                                    <td><input class="form-control form-control-sm" readonly value="@Html.Raw(ability.Text).ToString().Replace('\n',' ')" /></td>
+                                    <td><span readonly>@ability.Name</span></td>
+                                    <td><span readonly>@ability.Source</span></td>
+                                    <td><span readonly>@ability.Text</span></td>
                                 </tr>
                             }
                         </tbody>
@@ -527,7 +535,9 @@
             <div class="card shadow-sm h-100">
                 <div class="card-header">Proficiencies</div>
                 <div class="card-body">
-                    <input class="form-control" readonly value="@string.Join(", ", Model.Proficiencies)" />
+                    @foreach (var proficiency in Model.Proficiencies) {
+                        <p>@proficiency</p>
+                    }
                 </div>
             </div>
         </div>
@@ -540,17 +550,17 @@
                     <table class="table table-sm table-striped sheet-table">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Source</th>
-                                <th>Text</th>
+                                <th><b>Name</b></th>
+                                <th><b>Source</b></th>
+                                <th><b>Text</b></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var trait in Model.Traits) {
                                 <tr>
-                                    <td><input class="form-control form-control-sm" readonly value="@trait.Name" /></td>
-                                    <td><input class="form-control form-control-sm" readonly value="@trait.Source" /></td>
-                                    <td><input class="form-control form-control-sm" readonly value="@Html.Raw(trait.Text).ToString().Replace('\n',' ')" /></td>
+                                    <td><span readonly>@trait.Name</span></td>
+                                    <td><span readonly>@trait.Source</span></td>
+                                    <td><span readonly>@Html.Raw(trait.Text).ToString().Replace('\n',' ')</span></td>
                                 </tr>
                             }
                         </tbody>
@@ -573,19 +583,19 @@
                         <table class="table table-sm table-striped sheet-table mb-4">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Subtype</th>
-                                    <th>Cost</th>
-                                    <th>Weight</th>
+                                    <th><b>Name</b></th>
+                                    <th><b>Subtype</b></th>
+                                    <th><b>Cost</b></th>
+                                    <th><b>Weight</b></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in group) {
                                     <tr>
-                                        <td><input class="form-control form-control-sm" readonly value="@item.Name" /></td>
-                                        <td><input class="form-control form-control-sm" readonly value="@item.Subtype" /></td>
-                                        <td><input class="form-control form-control-sm" readonly value="@item.Cost" /></td>
-                                        <td><input class="form-control form-control-sm" readonly value="@item.Weight" /></td>
+                                        <td><span>@item.Name</span></td>
+                                        <td><span>@item.Subtype</span></td>
+                                        <td><span>@item.Cost</span></td>
+                                        <td><span>@item.Weight</span></td>
                                     </tr>
                                 }
                             </tbody>
@@ -621,9 +631,9 @@
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th>Perm</th>
-                                <th>Type</th>
-                                <th>Name</th>
+                                <th><b>Perm</b></th>
+                                <th><b>Type</b></th>
+                                <th><b>Name</b></th>
                             </tr>
                         </thead>
                         <tbody></tbody>
