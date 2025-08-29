@@ -57,9 +57,9 @@ namespace LugamarVTT.Models
         public string Resistances { get; set; } = string.Empty;
         public string Immunities { get; set; } = string.Empty;
         public string SpecialQualities { get; set; } = string.Empty;
-        public int Fortitude { get; set; }
-        public int Reflex { get; set; }
-        public int Will { get; set; }
+        public SavingThrowDetail Fortitude { get; set; } = new();
+        public SavingThrowDetail Reflex { get; set; } = new();
+        public SavingThrowDetail Will { get; set; } = new();
         public int Initiative { get; set; }
         public int Speed { get; set; }
         public int BaseAttackBonus { get; set; }
