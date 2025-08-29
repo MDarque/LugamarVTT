@@ -435,7 +435,7 @@ namespace LugamarVTT.Services
                     var source = GetString(ability.Element("source")) ?? string.Empty;
                     var type = GetString(ability.Element("type")) ?? string.Empty;
                     var level = GetInt(ability.Element("level"));
-                    var text = GetString(ability.Element("text")) ?? string.Empty;
+                    var text = GetFormatted(ability.Element("text"));
                     var summary = string.Empty;
                     if (!string.IsNullOrEmpty(text))
                     {

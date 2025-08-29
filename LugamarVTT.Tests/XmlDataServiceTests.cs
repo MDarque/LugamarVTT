@@ -324,4 +324,41 @@ public class XmlDataServiceTests
             Directory.Delete(tempDir, true);
         }
     }
+
+    [Fact]
+    public void GetCharacters_PreservesHtmlInSpecialAbilityText()
+    {
+        var tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        Directory.CreateDirectory(tempDir);
+        try
+        {
+            File.WriteAllText(Path.Combine(tempDir, "db.xml"), """
+<root>
+  <charsheet>
+    <specialabilitylist>
+      <id-00001>
+        <name>Shiny Power</name>
+        <source>Book</source>
+        <type>Ability</type>
+        <text>Gives <b>bold</b> strength.</text>
+      </id-00001>
+    </specialabilitylist>
+  </charsheet>
+</root>
+""");
+
+            var env = new TestHostEnvironment(tempDir);
+            var service = new XmlDataService(NullLogger<XmlDataService>.Instance, env);
+
+            var character = service.GetCharacters().Single();
+
+            var ability = Assert.Single(character.SpecialAbilities);
+            Assert.Contains("<b>bold</b>", ability.Text.Value);
+            Assert.Equal("Gives bold strength.", ability.Summary);
+        }
+        finally
+        {
+            Directory.Delete(tempDir, true);
+        }
+    }
 }
