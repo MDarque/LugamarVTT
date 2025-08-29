@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Components;
+
 namespace LugamarVTT.Models
 {
     /// <summary>
@@ -9,6 +11,6 @@ namespace LugamarVTT.Models
         public string Name { get; set; } = string.Empty;
         public string Source { get; set; } = string.Empty;
         /// <summary>Formatted description of the trait.</summary>
-        public string Text { get; set; } = string.Empty;
+        public MarkupString Text { get; set; } = new MarkupString();
     }
 }
