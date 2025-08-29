@@ -139,6 +139,14 @@ namespace LugamarVTT.Services
                 ? string.Empty
                 : string.Concat(el.Nodes().Select(n => n.ToString()));
             static int AbilityMod(int score) => (int)Math.Floor((score - 10) / 2.0);
+            static SavingThrowDetail ParseSave(XElement? node) => new SavingThrowDetail
+            {
+                Base = GetInt(node?.Element("base")),
+                AbilityMod = GetInt(node?.Element("abilitymod")),
+                Misc = GetInt(node?.Element("misc")),
+                Temp = GetInt(node?.Element("temporary")),
+                Total = GetInt(node?.Element("total"))
+            };
 
             // Ability scores are nested within <abilities>/<ability>/<score>.
             var abilities = charNode.Element("abilities");
@@ -159,6 +167,7 @@ namespace LugamarVTT.Services
 
             var attackNode = charNode.Element("attackbonus");
             int baseAttack = GetInt(attackNode?.Element("base"));
+            var savesNode = charNode.Element("saves");
 
             var character = new Character
             {
@@ -196,9 +205,9 @@ namespace LugamarVTT.Services
                 Resistances = GetString(charNode.Element("defenses")?.Element("resistances")) ?? string.Empty,
                 Immunities = GetString(charNode.Element("defenses")?.Element("immunities")) ?? string.Empty,
                 SpecialQualities = GetString(charNode.Element("defenses")?.Element("specialqualities")) ?? string.Empty,
-                Fortitude = GetInt(charNode.Element("saves")?.Element("fortitude")?.Element("total")),
-                Reflex = GetInt(charNode.Element("saves")?.Element("reflex")?.Element("total")),
-                Will = GetInt(charNode.Element("saves")?.Element("will")?.Element("total")),
+                Fortitude = ParseSave(savesNode?.Element("fortitude")),
+                Reflex = ParseSave(savesNode?.Element("reflex")),
+                Will = ParseSave(savesNode?.Element("will")),
                 Initiative = GetInt(charNode.Element("initiative")?.Element("total")),
                 Speed = GetInt(charNode.Element("speed")?.Element("total")),
                 BaseAttackBonus = baseAttack,
