@@ -8,6 +8,40 @@ BODY {
     color: #fff;
 }
 
+/* General input and label styling inside cards */
+.card .card-body input.form-control {
+    border: none;
+    border-bottom: 1px solid #ced4da;
+    border-radius: 0;
+}
+
+.card .card-body label.form-label {
+    margin: 0;
+}
+
+/* Use full borders for numeric-only inputs */
+.card .card-body.full-border input,
+.card .card-body .full-border input,
+.card .card-body input.full-border {
+    border: 1px solid #ced4da;
+    max-width: 40px;
+}
+
+.card .card-body .row {
+    margin-bottom: 4px;
+}
+
+.card .card-body div.mb-3:not(.row) {
+    margin-bottom: 4px;
+}
+
+/* Position labels below inputs */
+.card .card-body div[class*="col"],
+.card .card-body div.mb-3:not(.row) {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
 /* Ability score table */
 .ability-table th,
 .ability-table td {
@@ -40,8 +74,8 @@ BODY {
 }
 
 .ability-table input {
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 40px;
+    height: 40px;
     padding: 0;
     text-align: center;
     margin: 0 auto;
@@ -60,7 +94,8 @@ BODY {
 .saving-throws-table input {
     width: 40px;
 }
-
-.saving-throws-table td.total input {
+/* Total column styling */
+.card .card-body td.total input,
+.card .card-body input.total {
     border-color: #000;
 }
