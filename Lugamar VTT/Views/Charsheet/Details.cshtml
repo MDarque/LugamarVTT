@@ -488,7 +488,14 @@
                         </thead>
                         <tbody>
                             @foreach (var feat in Model.FeatDetails) {
-                                <tr>
+                                <tr style="cursor:pointer"
+                                    data-bs-toggle="modal" data-bs-target="#featModal"
+                                    data-name="@feat.Name"
+                                    data-type="@feat.Type"
+                                    data-prerequisites="@feat.Prerequisites"
+                                    data-benefit='@feat.Benefit'
+                                    data-normal='@feat.Normal'
+                                    data-special='@feat.Special'>
                                     <td><span readonly>@feat.Name</span></td>
                                     <td><span readonly>@feat.Summary</span></td>
                                 </tr>
@@ -626,6 +633,32 @@
         </div>
     </div>
     }
+    <div class="modal fade" id="featModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="featModalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Type:</strong> <span id="featModalType"></span></p>
+                    <p><strong>Prerequisites:</strong> <span id="featModalPrereqs"></span></p>
+                    <div>
+                        <p><strong>Benefit:</strong></p>
+                        <div id="featModalBenefit"></div>
+                    </div>
+                    <div>
+                        <p><strong>Normal:</strong></p>
+                        <div id="featModalNormal"></div>
+                    </div>
+                    <div>
+                        <p><strong>Special:</strong></p>
+                        <div id="featModalSpecial"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="abilityModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -693,6 +726,17 @@
                 row.innerHTML = `<td>${p.permNum ?? ''}</td><td>${p.bonusType ?? ''}</td><td>${p.name ?? ''}</td>`;
                 body.appendChild(row);
             });
+        });
+
+        const featModal = document.getElementById('featModal');
+        featModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget;
+            featModal.querySelector('#featModalTitle').textContent = button.getAttribute('data-name') || '';
+            featModal.querySelector('#featModalType').textContent = button.getAttribute('data-type') || '';
+            featModal.querySelector('#featModalPrereqs').textContent = button.getAttribute('data-prerequisites') || '';
+            featModal.querySelector('#featModalBenefit').innerHTML = button.getAttribute('data-benefit') || '';
+            featModal.querySelector('#featModalNormal').innerHTML = button.getAttribute('data-normal') || '';
+            featModal.querySelector('#featModalSpecial').innerHTML = button.getAttribute('data-special') || '';
         });
 
         const traitModal = document.getElementById('traitModal');
