@@ -110,7 +110,7 @@
         <div class="col-md-6 mb-4 mb-md-0">
             <div class="card shadow-sm mb-4">
                 <div class="card-header">Ability Scores</div>
-                <div class="card-body">
+                <div class="card-body full-border">
 @{
     var abilityList = new[]
     {
@@ -165,7 +165,7 @@
             </div>
             <div class="card shadow-sm">
                 <div class="card-header">Saving Throws</div>
-                <div class="card-body">
+                <div class="card-body full-border">
                     <table class="table table-sm table-striped sheet-table mb-0 saving-throws-table">
                         <thead>
                             <tr>
@@ -211,7 +211,7 @@
             <div class="card shadow-sm mb-4">
                 <div class="card-header">Hit Points</div>
                 <div class="card-body">
-                    <div class="row mb-3">
+                    <div class="row mb-3 full-border">
                         <div class="col">
                             <label class="form-label">Current</label>
                             <input class="form-control" readonly value="@Model?.CurrentHitPoints" />
@@ -259,7 +259,7 @@
             </div>
             <div class="card shadow-sm">
                 <div class="card-header">Initiative &amp; Speed</div>
-                <div class="card-body">
+                <div class="card-body full-border">
                     <div class="mb-3">
                         <label class="form-label">Initiative</label>
                         <input class="form-control" readonly value="@Model?.Initiative" />
@@ -278,7 +278,7 @@
         <div class="col">
             <div class="card shadow-sm">
                 <div class="card-header">Armor Class</div>
-                <div class="card-body">
+                <div class="card-body full-border">
                     <table class="table table-sm table-striped sheet-table mb-4">
                         <thead>
                             <tr>
@@ -371,7 +371,7 @@
         <div class="col">
             <div class="card shadow-sm">
                 <div class="card-header">Attack Bonus</div>
-                <div class="card-body">
+                <div class="card-body full-border">
                     <table class="table table-sm table-striped sheet-table">
                         <thead>
                             <tr>
@@ -433,7 +433,7 @@
         <div class="col">
             <div class="card shadow-sm">
                 <div class="card-header">Skills (@Model.SkillPointsSpent spent)</div>
-                <div class="card-body">
+                <div class="card-body full-border">
                     <table class="table table-sm table-striped sheet-table">
                         <thead>
                             <tr>

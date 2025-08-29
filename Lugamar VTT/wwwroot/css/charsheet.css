@@ -19,6 +19,13 @@ BODY {
     margin: 0;
 }
 
+/* Use full borders for numeric-only inputs */
+.card .card-body.full-border input,
+.card .card-body .full-border input,
+.card .card-body input.full-border {
+    border: 1px solid #ced4da;
+}
+
 .card .card-body .row {
     margin-bottom: 4px;
 }
